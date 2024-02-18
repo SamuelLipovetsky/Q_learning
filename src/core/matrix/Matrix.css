@@ -1,0 +1,37 @@
+.matrix {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  gap: 2px;
+  width: 300px;
+  height: 300px;
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  
+  aspect-ratio: 1; /* Ensures each cell has equal width and height */
+}
+
+.color-0 {
+  background-color: grey;
+}
+
+.color-1 {
+  background-color: darkgray;
+}
+
+.color-2 {
+  background-color: black;
+}
+
+.color-3 {
+  background-color: red;
+}
+
+.color-4 {
+  background-color: green;
+}
