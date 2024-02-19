@@ -6,9 +6,18 @@ class Matrix extends React.Component {
     super(props);
     this.state = {
       data: props.initialData,
+      drawnData :props.drawData
     };
   }
 
+  handleClick=(rowIndex,colIndex)=>
+  {
+    const newMatrix = [...this.props.initialData];
+
+    newMatrix[rowIndex][colIndex] = this.props.drawData // Update the specific number
+    this.props.updateMatrix(newMatrix);  
+
+  }
   componentDidUpdate(prevProps) {
    
     if (prevProps.initialData !== this.props.initialData) {
@@ -19,11 +28,12 @@ class Matrix extends React.Component {
 
   render() {
   
-    console.log(this.state.data)
+ 
     const rows = this.state.data.map((row, rowIndex) => (
-      <div className="" key={rowIndex}>
+      <div className="collumn" key={rowIndex}>
         {row.map((value, colIndex) => (
           <div
+            onClick={()=>this.handleClick(rowIndex,colIndex)}
             className={`cell color-${value}`}
             key={`${rowIndex}-${colIndex}`}
           ></div>

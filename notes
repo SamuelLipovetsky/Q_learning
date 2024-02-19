@@ -1,0 +1,23 @@
+3 sliders 
+ - recompensa derrota
+ - recompensa vitória
+ - recompensa neutra
+outos fatores
+ - taxa de aprendizado
+ - fator de desconto
+ - interval time
+
+ideias:
+ - pular x passos
+ - toggle on x off 
+ - overlay q-values
+ - hove over = stop + freeze
+
+cosmetic:
+ - deep blue background
+ - 7x7 rounded squares and a bit transparent + shadows
+ - arrows representing path
+
+ next:
+    - implement the algorithm
+    - insert it into the set interval
