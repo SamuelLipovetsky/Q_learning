@@ -4,6 +4,7 @@ import Matrix from '../matrix/Matrix'
 import * as utils from "./aux-functions"
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
 function Main() {
   const [matrixData, setMatrixData] = useState([
     [1, 0, 0, 3, 0, 0, 3],
@@ -31,7 +32,7 @@ function Main() {
     let action;
     let randomIndex;
     let availabeActions;
-    if (Math.random() > 0.9) {
+    if (Math.random() > 0.8) {
       availabeActions = utils.getAvailableActions(matrixData, agentPosition)
       randomIndex = Math.floor(Math.random() * availabeActions.length);
       action = availabeActions[randomIndex]
@@ -56,7 +57,15 @@ function Main() {
 
       const newMatrix = [...matrixData];
       newMatrix[agentRow][agentCol] = 0
-
+      const newQTable = [...qTable];
+      if (reward==-3){
+        newQTable[nextState[0]][nextState[1]]=[-1,-1,-1,-1]
+      }
+      if (reward==3){
+        newQTable[nextState[0]][nextState[1]]=[+1,+1,+1,+1]
+      }
+     
+      setqTable(newQTable);
       updateMatrix(newMatrix)
       if (reward == 1) {
         console.log(passos)

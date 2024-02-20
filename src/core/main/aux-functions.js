@@ -44,11 +44,8 @@ export function chooseOptimalAction(qTable, state, grid) {
     
     const actions = availableActions.map(action => qTable[state[0]][state[1]][action]);
 
-    
-    const actionIndex = actions.indexOf(Math.max(...actions));
-
-    const maxAction = Math.max(...actions); // Find the maximum value in the actions array
-    const maxIndices = actions.reduce((acc, val, index) => { // Find the indices of the maximum value
+    const maxAction = Math.max(...actions); 
+    const maxIndices = actions.reduce((acc, val, index) => { 
     if (val === maxAction) {
         acc.push(index);
     }

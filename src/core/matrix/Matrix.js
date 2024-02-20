@@ -1,6 +1,6 @@
 import React from 'react';
 import './Matrix.css';
-
+import ArrowDisplay from "./Arrow.js"
 class Matrix extends React.Component {
   constructor(props) {
     super(props);
@@ -25,7 +25,7 @@ class Matrix extends React.Component {
       this.setState({ data: this.props.initialData });
     }
   }
-
+  
   render() {
   
  
@@ -37,13 +37,14 @@ class Matrix extends React.Component {
             className={`cell color-${value}`}
             key={`${rowIndex}-${colIndex}`}
           >
+            <ArrowDisplay numbers={this.props.qTable[rowIndex][colIndex]}></ArrowDisplay>
             
-            {this.props.qTable[rowIndex][colIndex].map((value,index)=>(
+            {/* {this.props.qTable[rowIndex][colIndex].map((value,index)=>(
              
             
              <div style={{fontSize:10}}>
              {value.toFixed(3)}
-           </div>))}
+           </div>))} */}
       
           </div>
         ))}
