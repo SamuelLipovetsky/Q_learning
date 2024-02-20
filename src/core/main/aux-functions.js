@@ -47,7 +47,16 @@ export function chooseOptimalAction(qTable, state, grid) {
     
     const actionIndex = actions.indexOf(Math.max(...actions));
 
-    return availableActions[actionIndex];
+    const maxAction = Math.max(...actions); // Find the maximum value in the actions array
+    const maxIndices = actions.reduce((acc, val, index) => { // Find the indices of the maximum value
+    if (val === maxAction) {
+        acc.push(index);
+    }
+    return acc;
+    }, []);
+
+    const randomIndex = maxIndices[Math.floor(Math.random() * maxIndices.length)]; // Sele
+    return availableActions[randomIndex];
 }
 
 export function getReward(grid, state, defaultReward) {
