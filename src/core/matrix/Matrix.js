@@ -36,7 +36,16 @@ class Matrix extends React.Component {
             onClick={()=>this.handleClick(rowIndex,colIndex)}
             className={`cell color-${value}`}
             key={`${rowIndex}-${colIndex}`}
-          ></div>
+          >
+            
+            {this.props.qTable[rowIndex][colIndex].map((value,index)=>(
+             
+            
+             <div style={{fontSize:10}}>
+             {value.toFixed(3)}
+           </div>))}
+      
+          </div>
         ))}
       </div>
     ));

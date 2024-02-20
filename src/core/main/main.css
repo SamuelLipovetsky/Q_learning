@@ -1,0 +1,21 @@
+.wrapper{
+    position: relative;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    display: flex;
+  }
+  
+  .child{
+    flex: 1;
+    flex-basis: 33.33%;
+    align-items: center; /* Center vertically */
+    height: 100vh;
+  
+  }
+  .child-matrix{
+    flex: 1;
+    flex-basis: 33.33%;
+    align-items: center;
+    height: 100vh;
+    
+  }

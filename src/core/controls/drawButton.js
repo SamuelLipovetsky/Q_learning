@@ -8,7 +8,6 @@ function DrawButton(props) {
         setIsDrawing(previsDrawing => { return !previsDrawing })
         props.updateDrawData(props.drawData)
         
-        
     }
 
     return (
