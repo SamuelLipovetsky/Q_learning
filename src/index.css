@@ -16,17 +16,17 @@ code {
     monospace;
 }
 
-.wrapper{
+/* .wrapper{
   position: relative;
-  width: 100vw; /* Full viewport width */
-  height: 100vh; /* Full viewport height */
+  width: 100vw; 
+  height: 100vh; 
   display: flex;
 }
 
 .child{
   flex: 1;
   flex-basis: 33.33%;
-  align-items: center; /* Center vertically */
+  align-items: center; 
   height: 100vh;
 
 }
@@ -36,4 +36,4 @@ code {
   align-items: center;
   height: 100vh;
   
-}
+} */

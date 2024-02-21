@@ -23,7 +23,7 @@ function ArrowDisplay({ numbers }) {
         arrow = '•'; // Dot if max number appears more than once
     }
 
-    console.log(numbers,arrow)
+   
     return (
         <div>
             {arrow}

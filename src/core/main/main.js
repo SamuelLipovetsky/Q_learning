@@ -1,33 +1,44 @@
 
-import DrawButton from '../controls/drawButton';
+import DrawButton from '../drawButton/drawButton';
 import Matrix from '../matrix/Matrix'
 import * as utils from "./aux-functions"
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
+import './main.css';
+import MatrixControls from '../matrixControls/matrixControls';
 function Main() {
-  const [matrixData, setMatrixData] = useState([
-    [1, 0, 0, 3, 0, 0, 3],
-    [0, 0, 0, 0, 0, 3, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 2, 0, 3, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 2, 0, 0, 0, 0, 4],
-    [0, 0, 0, 0, 0, 0, 0],
-  ]);
+  const [matrixData, setMatrixData] = useState(() => {
+    return [
+      [1, 0, 0, 3, 0, 0, 3],
+      [0, 0, 0, 0, 0, 3, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 2, 0, 3, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 2, 0, 0, 0, 0, 4],
+      [0, 0, 0, 0, 0, 0, 0],
+    ]
+  });
   const [graphData, setGraphData] = useState([{ value: 0 }])
-  const [qTable, setqTable] = useState(utils.initializeQTable(7))
+  const [qTable, setqTable] = useState(() => { return utils.initializeQTable(7) })
   const [drawData, setDrawdata] = useState(0)
-  const [intervalDuration, setIntervalDuration] = useState(10); // Initial interval duration
+  const [intervalDuration, setIntervalDuration] = useState(10); 
   const [intervalId, setIntervalId] = useState(null);
-
-  let agentPosition = [0, 0]
+  const [isPlaying, setIsPlaying] = useState(true)
+  let agentPosition =[0,0]
+  for (let i = 0; i < matrixData.length; i++) {
+    for (let j = 0; j < matrixData[i].length; j++) {
+      if (matrixData[i][j] === 1) {
+        // return { row: i, column: j };
+        agentPosition= [i,j]
+        break
+      }
+    }
+  }
+  
   let passos = 0
   const qLearning = (learningRate, discountFactor, defaultReward) => {
     const numStates = matrixData.length;
     const numActions = 4;
-
-
     // Choose an action based on epsilon-greedy strategy
     let action;
     let randomIndex;
@@ -58,17 +69,17 @@ function Main() {
       const newMatrix = [...matrixData];
       newMatrix[agentRow][agentCol] = 0
       const newQTable = [...qTable];
-      if (reward==-3){
-        newQTable[nextState[0]][nextState[1]]=[-1,-1,-1,-1]
+      if (reward == -3) {
+        newQTable[nextState[0]][nextState[1]] = [-1, -1, -1, -1]
       }
-      if (reward==3){
-        newQTable[nextState[0]][nextState[1]]=[+1,+1,+1,+1]
+      if (reward == 3) {
+        newQTable[nextState[0]][nextState[1]] = [+1, +1, +1, +1]
       }
-     
+
       setqTable(newQTable);
       updateMatrix(newMatrix)
       if (reward == 1) {
-        console.log(passos)
+
       }
       passos = 0
       agentPosition = [0, 0]
@@ -96,38 +107,24 @@ function Main() {
       const shouldAddValue = Math.random() < 0.05; // Random check to determine whether to add the value or not
 
       if (shouldAddValue) {
-        return [...prevGraphData, { value: average_max_q }];
+        return [...prevGraphData, { "Average Max Qvalues" : average_max_q }];
       } else {
         return prevGraphData; // Return the previous state without adding the new value
       }
     });
-
-
-
   }
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      qLearning(0.3, 0.9, -0.06);
-    }, intervalDuration);
+    if (isPlaying) {
+      const interval = setInterval(() => {
+        qLearning(0.3, 0.9, -0.06);
+      }, intervalDuration);
 
-    setIntervalId(interval);
+      setIntervalId(interval);
 
-    return () => clearInterval(interval);
-  }, [intervalDuration]);
-
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     qLearning(0.3, 0.9, -0.06)
-
-
-  //   }, 10);
-
-  //   return () => clearInterval(interval);
-  // }, []);
-
-
+      return () => clearInterval(interval);
+    }
+  }, [isPlaying, intervalDuration]);
 
   const updateMatrix = (newMatrix) => {
     setMatrixData(newMatrix);
@@ -135,14 +132,18 @@ function Main() {
   const updateDrawData = (newDrawingType) => {
     setDrawdata(newDrawingType);
   };
+  const updateIsPlaying = () => {
+    setIsPlaying(prevIsPlaying => !prevIsPlaying);
+  };
+
   const handleSliderChange = (event) => {
     setIntervalDuration(parseInt(event.target.value, 10)); // Parse slider value to integer
   };
-
+  console.log(isPlaying)
   return (
     <div className="">
       <div className="wrapper">
-        <div className="child">
+        <div className="child config">
           <div><DrawButton updateDrawData={updateDrawData}
             drawData={2} title={"obtaculo"}></DrawButton></div>
           <div><DrawButton updateDrawData={updateDrawData}
@@ -150,13 +151,14 @@ function Main() {
           <div><DrawButton updateDrawData={updateDrawData}
             drawData={3} title={"punição"}></DrawButton></div>
         </div>
-        <div className="child-matrix">
+        <div className="child matrix">
           <Matrix qTable={qTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} />
+          <MatrixControls updateIsPlaying={updateIsPlaying} ></MatrixControls>
         </div>
-        <div className="child">
-
-{/* 
-          <ResponsiveContainer width="100%" height={300}>
+        <div className="child config ">
+    
+          
+          <ResponsiveContainer width="100%">
             <LineChart
               data={graphData}
               margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
@@ -165,16 +167,11 @@ function Main() {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="value" stroke="#8884d8" />
+              <Line type="monotone" dataKey="Average Max Qvalues" stroke="#8884d8" />
             </LineChart>
-          </ResponsiveContainer> */}
-
-        </div>
-        <div className='child'>
-         
+          </ResponsiveContainer>
         </div>
       </div>
-
     </div>
   );
 }

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-
+import "./drawButton.css"
 function DrawButton(props) {
     const [isDrawing, setIsDrawing] = useState(false)
 
@@ -11,7 +11,7 @@ function DrawButton(props) {
     }
 
     return (
-        <button className="drawnButton" onClick={handleClick}>
+        <button className="drawButton" onClick={handleClick}>
            celulas de  {props.title}
         </button>
     );

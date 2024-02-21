@@ -39,19 +39,12 @@ class Matrix extends React.Component {
           >
             <ArrowDisplay numbers={this.props.qTable[rowIndex][colIndex]}></ArrowDisplay>
             
-            {/* {this.props.qTable[rowIndex][colIndex].map((value,index)=>(
-             
-            
-             <div style={{fontSize:10}}>
-             {value.toFixed(3)}
-           </div>))} */}
-      
           </div>
         ))}
       </div>
     ));
 
-    return <div className="matrix">{rows}</div>;
+    return <div className="matrix-element">{rows}</div>;
   }
 }
 
