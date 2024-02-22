@@ -15,7 +15,7 @@ function MatrixControls(props) {
 
     }
     const handleRunQlearning =()=>{
-        props.runQlearning(500000)
+        props.runQlearning(1000)
     }
     const handleResetTable =()=>{
         props.resetTable()

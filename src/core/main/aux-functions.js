@@ -23,7 +23,7 @@ export function getAvailableActions(matrix, agentPosition) {
     if (col > 0 && matrix[row][col - 1] !== 2) {
         actions.push(3);
     }
-  
+
     return actions;
 }
 
@@ -41,43 +41,43 @@ export function initializeQTable(gridLen) {
 
 export function chooseOptimalAction(qTable, state, grid) {
     const availableActions = getAvailableActions(grid, state);
-    
+
     const actions = availableActions.map(action => qTable[state[0]][state[1]][action]);
 
-    const maxAction = Math.max(...actions); 
-    const maxIndices = actions.reduce((acc, val, index) => { 
-    if (val === maxAction) {
-        acc.push(index);
-    }
-    return acc;
+    const maxAction = Math.max(...actions);
+    const maxIndices = actions.reduce((acc, val, index) => {
+        if (val === maxAction) {
+            acc.push(index);
+        }
+        return acc;
     }, []);
 
     const randomIndex = maxIndices[Math.floor(Math.random() * maxIndices.length)]; // Sele
     return availableActions[randomIndex];
 }
 
-export function getReward(grid, state, defaultReward) {
+export function getReward(grid, state, defaultReward,posRewad,negRewad) {
 
     const [row, col] = state;
-    
+
     const cellValue = grid[row][col];
-   
+
     if (cellValue === 4) {
-        return 3;
+        return posRewad;
     } else if (cellValue === 3) {
-        return -3;
-    } else if (cellValue === 0 ) {
+        return negRewad;
+    } else if (cellValue === 0) {
         return defaultReward;
-    } 
-    else{
-        
+    }
+    else {
+
         return defaultReward
     }
-  
-  
+
+
 }
 export function getNextState(state, action) {
-  
+
     const [row, col] = state;
     // console.log(action)
     if (action === 0) {
@@ -91,42 +91,67 @@ export function getNextState(state, action) {
     }
 }
 
-export function qLearning(qTable,grid, learningRate, discountFactor, defaultReward) {
-    const numStates = grid.length;
-    const numActions = 4; // up, down, left, right
-    let state = [0, 0];
-    let totalReward = 0;
-    const rewards = [];
+export function qLearningFaster(matrixData, qTable, epsilon, learningRate, discountFactor, defaultReward, iterations,posRewad,negRewad){
+    const numStates = matrixData.length;
+    const numActions = 4;
     // Choose an action based on epsilon-greedy strategy
     let action;
-    if (Math.random() < 0.2) {
-        action = Math.floor(Math.random() * getAvailableActions(grid, state).length);
-    } else {
-        action = chooseOptimalAction(qTable, state, grid);
-    }
+    let randomIndex;
+    let availabeActions;
+    let agentPosition = [0, 0]
+    let qValues =[]
+    for (let i = 0; i < iterations; i++) {
+        if (Math.random() > epsilon) {
+            availabeActions = getAvailableActions(matrixData, agentPosition)
+            randomIndex = Math.floor(Math.random() * availabeActions.length);
+            action = availabeActions[randomIndex]
+        } else {
+            action = chooseOptimalAction(qTable, agentPosition, matrixData);
+        }
 
-    // Execute the action and observe the next state and reward
-    const nextState = getNextState(state, action);
-    const reward = getReward(grid, nextState, defaultReward);
+        const nextState = getNextState(agentPosition, action);
+        const reward = getReward(matrixData, nextState, defaultReward,posRewad,negRewad);
 
-    if (reward !== undefined) {
-        const qValue = qTable[state[0]][state[1]][action];
+        const [agentRow, agentCol] = agentPosition;
+        const qValue = qTable[agentRow][agentCol][action];
         const maxQValue = Math.max(...qTable[nextState[0]][nextState[1]]);
-        qTable[state[0]][state[1]][action] += learningRate * (reward + discountFactor * maxQValue - qValue);
-        totalReward += reward;
-    }
+        qTable[agentRow][agentCol][action] += learningRate * (reward + discountFactor * maxQValue - qValue);
+        const [nextRow, nextCol] = nextState;
 
-    state = nextState;
+        if (reward == 3 || reward == -3) {
 
-    if (reward === 1) {
-        rewards.push(totalReward);
-       
-      
-        totalReward = 0;
-       
+            if (reward == -3) {
+                qTable[nextState[0]][nextState[1]] = [-1, -1, -1, -1]
+            }
+            if (reward == 3) {
+                qTable[nextState[0]][nextState[1]] = [+1, +1, +1, +1]
+            }
+
+            if (reward == 1) {
+
+            }
+            
+            agentPosition = [0, 0]
+
+        }
+        else {
+            agentPosition = nextState
+        }
+        const maxValues = qTable.map(subArray =>
+            subArray.map(row => Math.max(...row))
+        );
+        const totalSum = maxValues.reduce((acc, subArray) =>
+            acc + subArray.reduce((subAcc, val) => subAcc + val, 0), 0
+        );
+        const average_max_q = totalSum / (qTable.length * qTable[0].length);
+        // setGraphData(prevGraphData => [...prevGraphData, { value: average_max_q }]);
+
+        const shouldAddValue = Math.random() < 0.05; // Random check to determine whether to add the value or not
+
+        if (shouldAddValue) {
+            qValues=[...qValues , { "Average Max Qvalues": average_max_q }];
+        }
+
     }
-    if (reward === -1) {
-        totalReward = 0;
-    }
-    return { qTable, agentStates };
+    return qValues
 }

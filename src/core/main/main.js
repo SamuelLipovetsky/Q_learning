@@ -55,7 +55,7 @@ function Main() {
     }
 
     const nextState = utils.getNextState(agentPosition, action);
-    const reward = utils.getReward(matrixData, nextState, defaultReward);
+    const reward = utils.getReward(matrixData, nextState, defaultReward,3,-3);
 
     const [agentRow, agentCol] = agentPosition;
     const qValue = qTable[agentRow][agentCol][action];
@@ -134,22 +134,31 @@ function Main() {
     setIsPlaying(prevIsPlaying => !prevIsPlaying);
 
   };
-  const runQlearning = (n_times) => {
+  async function runQlearning (n_times){
     if (!isTraining) {
-      console.log('1')
+     
       setIsTraining(true)
       setIsPlaying(false)
-      for (let i = 0; i < n_times; i++) {
-        qLearningState(0.3, 0.9, -0.06, 0.9);
-      }
+      let matrixCopy =[...matrixData]
+      let qTableCopy =[...qTable]
 
-      const newMatrix = [...matrixData];
-      newMatrix[agentPosition[0]][agentPosition[1]] = 0
-      updateMatrix(newMatrix)
-      agentPosition = [0, 0]
+     
+      
+      await new Promise((resolve, reject) => {
+        // Simulate heavy asynchronous task (e.g., fetching data from an API)
+       
+          let averageQValues = utils.qLearningFaster (matrixCopy,qTableCopy,0.8,0.3,0.9,-0.06,n_times,3,-3)
+          resolve(); // Resolve the promise when the task is complete
+       
+      });
+      // const newMatrix = [...matrixData];
+      // newMatrix[agentPosition[0]][agentPosition[1]] = 0
+      updateMatrix(matrixCopy)
+      setqTable(qTableCopy)
+      // agentPosition = [0, 0]
       setIsPlaying(true)
       setIsTraining(false)
-      console.log('2')
+      
     }
 
 
@@ -184,7 +193,7 @@ function Main() {
         <div className="child config ">
 
 
-          {/* <ResponsiveContainer width="100%">
+           <ResponsiveContainer width="100%">
             <LineChart
               data={graphData}
               margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
@@ -195,7 +204,7 @@ function Main() {
               <Legend />
               <Line type="monotone" dataKey="Average Max Qvalues" stroke="#8884d8" />
             </LineChart>
-          </ResponsiveContainer> */}
+          </ResponsiveContainer> 
         </div>
       </div>
     </div>
