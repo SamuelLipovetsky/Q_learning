@@ -91,50 +91,42 @@ export function getNextState(state, action) {
     }
 }
 
-// export function qLearning(grid, learningRate, discountFactor, defaultReward) {
-//     const numStates = grid.length;
-//     const numActions = 4; // up, down, left, right
-//     const qTable = initializeQTable(numStates);
-//     const agentStates = [];
-//     let state = [0, 0];
-//     let totalReward = 0;
-//     let iterations = 0;
-//     const rewards = [];
-    
+export function qLearning(qTable,grid, learningRate, discountFactor, defaultReward) {
+    const numStates = grid.length;
+    const numActions = 4; // up, down, left, right
+    let state = [0, 0];
+    let totalReward = 0;
+    const rewards = [];
+    // Choose an action based on epsilon-greedy strategy
+    let action;
+    if (Math.random() < 0.2) {
+        action = Math.floor(Math.random() * getAvailableActions(grid, state).length);
+    } else {
+        action = chooseOptimalAction(qTable, state, grid);
+    }
 
-//     agentStates.push(state);
+    // Execute the action and observe the next state and reward
+    const nextState = getNextState(state, action);
+    const reward = getReward(grid, nextState, defaultReward);
 
+    if (reward !== undefined) {
+        const qValue = qTable[state[0]][state[1]][action];
+        const maxQValue = Math.max(...qTable[nextState[0]][nextState[1]]);
+        qTable[state[0]][state[1]][action] += learningRate * (reward + discountFactor * maxQValue - qValue);
+        totalReward += reward;
+    }
 
-//     // Choose an action based on epsilon-greedy strategy
-//     let action;
-//     if (Math.random() < 0.2) {
-//         action = Math.floor(Math.random() * getAvailableActions(grid, state).length);
-//     } else {
-//         action = chooseOptimalAction(qTable, state, grid);
-//     }
+    state = nextState;
 
-//     // Execute the action and observe the next state and reward
-//     const nextState = getNextState(state, action);
-//     const reward = getReward(grid, nextState, defaultReward);
-
-//     if (reward !== undefined) {
-//         const qValue = qTable[state[0]][state[1]][action];
-//         const maxQValue = Math.max(...qTable[nextState[0]][nextState[1]]);
-//         qTable[state[0]][state[1]][action] += learningRate * (reward + discountFactor * maxQValue - qValue);
-//         totalReward += reward;
-//     }
-
-//     state = nextState;
-
-//     if (reward === 1) {
-//         rewards.push(totalReward);
+    if (reward === 1) {
+        rewards.push(totalReward);
        
       
-//         totalReward = 0;
+        totalReward = 0;
        
-//     }
-//     if (reward === -1) {
-//         totalReward = 0;
-//     }
-//     return { qTable, agentStates };
-// }
+    }
+    if (reward === -1) {
+        totalReward = 0;
+    }
+    return { qTable, agentStates };
+}

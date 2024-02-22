@@ -10,16 +10,27 @@ function MatrixControls(props) {
     else {
         playingStatus = <div></div>
     }
-    const handleClick = () => {
+    const handleUpdateIsPlaying = () => {
         props.updateIsPlaying()
 
     }
-
+    const handleRunQlearning =()=>{
+        props.runQlearning(500000)
+    }
+    const handleResetTable =()=>{
+        props.resetTable()
+    }
 
     return (
         <div className='matrix-control'>
-            <button onClick={handleClick}>
+            <button onClick={handleUpdateIsPlaying}>
                 play
+            </button>
+            <button onClick={handleRunQlearning}>
+                Treinar por mais 1000 passos
+            </button>
+            <button onClick={handleResetTable}>
+                Resetar treinamento
             </button>
         </div>
 

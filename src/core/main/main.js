@@ -9,34 +9,37 @@ import MatrixControls from '../matrixControls/matrixControls';
 function Main() {
   const [matrixData, setMatrixData] = useState(() => {
     return [
-      [1, 0, 0, 3, 0, 0, 3],
-      [0, 0, 0, 0, 0, 3, 0],
+      [1, 0, 3, 0, 3, 0, 0],
+      [0, 3, 0, 3, 0, 3, 0],
+      [0, 0, 0, 0, 0, 0, 4],
+      [0, 3, 0, 3, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0],
-      [0, 2, 0, 3, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0],
-      [0, 2, 0, 0, 0, 0, 4],
       [0, 0, 0, 0, 0, 0, 0],
     ]
   });
   const [graphData, setGraphData] = useState([{ value: 0 }])
   const [qTable, setqTable] = useState(() => { return utils.initializeQTable(7) })
   const [drawData, setDrawdata] = useState(0)
-  const [intervalDuration, setIntervalDuration] = useState(10); 
+  const [intervalDuration, setIntervalDuration] = useState(50);
   const [intervalId, setIntervalId] = useState(null);
   const [isPlaying, setIsPlaying] = useState(true)
-  let agentPosition =[0,0]
+  const [isTraining, setIsTraining] = useState(false)
+
+  // const [agentPosition,setAgentPosition] =useState([0,0])
+  let agentPosition = [0, 0]
   for (let i = 0; i < matrixData.length; i++) {
     for (let j = 0; j < matrixData[i].length; j++) {
       if (matrixData[i][j] === 1) {
         // return { row: i, column: j };
-        agentPosition= [i,j]
+        agentPosition = [i, j]
         break
       }
     }
   }
-  
+
   let passos = 0
-  const qLearning = (learningRate, discountFactor, defaultReward) => {
+  const qLearningState = (learningRate, discountFactor, defaultReward) => {
     const numStates = matrixData.length;
     const numActions = 4;
     // Choose an action based on epsilon-greedy strategy
@@ -57,15 +60,12 @@ function Main() {
     const [agentRow, agentCol] = agentPosition;
     const qValue = qTable[agentRow][agentCol][action];
     const maxQValue = Math.max(...qTable[nextState[0]][nextState[1]]);
-
     const newQTable = [...qTable];
     newQTable[agentRow][agentCol][action] += learningRate * (reward + discountFactor * maxQValue - qValue);
     setqTable(newQTable);
     const [nextRow, nextCol] = nextState;
     passos += 1;
-
     if (reward == 3 || reward == -3) {
-
       const newMatrix = [...matrixData];
       newMatrix[agentRow][agentCol] = 0
       const newQTable = [...qTable];
@@ -75,7 +75,6 @@ function Main() {
       if (reward == 3) {
         newQTable[nextState[0]][nextState[1]] = [+1, +1, +1, +1]
       }
-
       setqTable(newQTable);
       updateMatrix(newMatrix)
       if (reward == 1) {
@@ -83,6 +82,7 @@ function Main() {
       }
       passos = 0
       agentPosition = [0, 0]
+
     }
     else {
       agentPosition = nextState
@@ -98,16 +98,13 @@ function Main() {
     const totalSum = maxValues.reduce((acc, subArray) =>
       acc + subArray.reduce((subAcc, val) => subAcc + val, 0), 0
     );
-
     const average_max_q = totalSum / (qTable.length * qTable[0].length);
-
-
     // setGraphData(prevGraphData => [...prevGraphData, { value: average_max_q }]);
     setGraphData(prevGraphData => {
       const shouldAddValue = Math.random() < 0.05; // Random check to determine whether to add the value or not
 
       if (shouldAddValue) {
-        return [...prevGraphData, { "Average Max Qvalues" : average_max_q }];
+        return [...prevGraphData, { "Average Max Qvalues": average_max_q }];
       } else {
         return prevGraphData; // Return the previous state without adding the new value
       }
@@ -117,7 +114,7 @@ function Main() {
   useEffect(() => {
     if (isPlaying) {
       const interval = setInterval(() => {
-        qLearning(0.3, 0.9, -0.06);
+        qLearningState(0.3, 0.9, -0.06);
       }, intervalDuration);
 
       setIntervalId(interval);
@@ -133,13 +130,42 @@ function Main() {
     setDrawdata(newDrawingType);
   };
   const updateIsPlaying = () => {
-    setIsPlaying(prevIsPlaying => !prevIsPlaying);
-  };
 
+    setIsPlaying(prevIsPlaying => !prevIsPlaying);
+
+  };
+  const runQlearning = (n_times) => {
+    if (!isTraining) {
+      console.log('1')
+      setIsTraining(true)
+      setIsPlaying(false)
+      for (let i = 0; i < n_times; i++) {
+        qLearningState(0.3, 0.9, -0.06, 0.9);
+      }
+
+      const newMatrix = [...matrixData];
+      newMatrix[agentPosition[0]][agentPosition[1]] = 0
+      updateMatrix(newMatrix)
+      agentPosition = [0, 0]
+      setIsPlaying(true)
+      setIsTraining(false)
+      console.log('2')
+    }
+
+
+
+  }
+  const resetTable = () => {
+    setIsPlaying(false)
+    agentPosition = [0, 0]
+    let newQTable = utils.initializeQTable(7)
+    setqTable(newQTable);
+
+  }
   const handleSliderChange = (event) => {
     setIntervalDuration(parseInt(event.target.value, 10)); // Parse slider value to integer
   };
-  console.log(isPlaying)
+
   return (
     <div className="">
       <div className="wrapper">
@@ -153,12 +179,12 @@ function Main() {
         </div>
         <div className="child matrix">
           <Matrix qTable={qTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} />
-          <MatrixControls updateIsPlaying={updateIsPlaying} ></MatrixControls>
+          <MatrixControls resetTable={resetTable} runQlearning={runQlearning} updateIsPlaying={updateIsPlaying} ></MatrixControls>
         </div>
         <div className="child config ">
-    
-          
-          <ResponsiveContainer width="100%">
+
+
+          {/* <ResponsiveContainer width="100%">
             <LineChart
               data={graphData}
               margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
@@ -169,7 +195,7 @@ function Main() {
               <Legend />
               <Line type="monotone" dataKey="Average Max Qvalues" stroke="#8884d8" />
             </LineChart>
-          </ResponsiveContainer>
+          </ResponsiveContainer> */}
         </div>
       </div>
     </div>
