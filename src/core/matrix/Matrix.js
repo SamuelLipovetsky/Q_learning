@@ -6,45 +6,44 @@ class Matrix extends React.Component {
     super(props);
     this.state = {
       data: props.initialData,
-      drawnData :props.drawData
+      drawnData: props.drawData
     };
   }
 
-  handleClick=(rowIndex,colIndex)=>
-  {
+  handleClick = (rowIndex, colIndex) => {
     const newMatrix = [...this.props.initialData];
 
     newMatrix[rowIndex][colIndex] = this.props.drawData // Update the specific number
-    this.props.updateMatrix(newMatrix);  
+    this.props.updateMatrix(newMatrix);
 
   }
   componentDidUpdate(prevProps) {
-   
+
     if (prevProps.initialData !== this.props.initialData) {
       // If the matrix data has changed, update the state
       this.setState({ data: this.props.initialData });
     }
   }
-  
+
   render() {
-  
- 
     const rows = this.state.data.map((row, rowIndex) => (
-      <div className="collumn" key={rowIndex}>
+      <div className="row" key={rowIndex}>
         {row.map((value, colIndex) => (
           <div
-            onClick={()=>this.handleClick(rowIndex,colIndex)}
-            className={`cell color-${value}`}
+            onClick={() => this.handleClick(rowIndex, colIndex)}
+            className={`matrix-cell color-${value}`}
             key={`${rowIndex}-${colIndex}`}
           >
             <ArrowDisplay numbers={this.props.qTable[rowIndex][colIndex]}></ArrowDisplay>
-            
           </div>
         ))}
       </div>
     ));
 
-    return <div className="matrix-element">{rows}</div>;
+    return <div className="matrix-container">{rows}</div>;
+          
+            
+            
   }
 }
 

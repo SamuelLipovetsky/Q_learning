@@ -11,13 +11,13 @@ function ArrowDisplay({ numbers }) {
         const maxIndex = processedNumbers.indexOf(maxNumber);
 
         if (maxIndex === 0) {
-            arrow = '←';
+            arrow = '↑';
         } else if (maxIndex === 1) {
-            arrow = '↓';
-        } else if (maxIndex === 2) {
             arrow = '→';
+        } else if (maxIndex === 2) {
+            arrow = '↓';
         } else if (maxIndex === 3) {
-            arrow = '↑ ';
+            arrow = '←';
         }
     } else {
         arrow = '•'; // Dot if max number appears more than once

@@ -1,5 +1,6 @@
 
 import Main from "./core/main/main";
+import Matrix from "./core/matrix/Matrix";
 function App() {
   
   return (

@@ -1,7 +1,10 @@
 .matrix-control {
     display: flex;
-    justify-content: left;
+    justify-content: center;
     align-items: center; 
-    min-width: 400px;
+    /* min-width: 400px; */
+    width: 90%;
+    height: 90%;  
+    padding-top: 5%;
     
 }

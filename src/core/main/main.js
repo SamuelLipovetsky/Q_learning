@@ -1,32 +1,36 @@
 
-import DrawButton from '../drawButton/drawButton';
+import DrawButton from '../matrixConfigs/drawButton/drawButton';
 import Matrix from '../matrix/Matrix'
 import * as utils from "./aux-functions"
-import React, { useState, useEffect } from 'react';
+import React, { createContext,useContext,useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './main.css';
 import MatrixControls from '../matrixControls/matrixControls';
+import MatrixConfigs from '../matrixConfigs/mainConfigs/matrixConfigs';
+export const ConfigContext = createContext();
+
 function Main() {
   const [matrixData, setMatrixData] = useState(() => {
     return [
       [1, 0, 3, 0, 3, 0, 0],
-      [0, 3, 0, 3, 0, 3, 0],
+      [0, 0, 0, 3, 0, 3, 0],
       [0, 0, 0, 0, 0, 0, 4],
+      [0, 0, 0, 3, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
       [0, 3, 0, 3, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0],
     ]
   });
   const [graphData, setGraphData] = useState([{ value: 0 }])
   const [qTable, setqTable] = useState(() => { return utils.initializeQTable(7) })
-  const [drawData, setDrawdata] = useState(0)
+  const [drawData, setDrawData] = useState(0)
   const [intervalDuration, setIntervalDuration] = useState(50);
   const [intervalId, setIntervalId] = useState(null);
   const [isPlaying, setIsPlaying] = useState(true)
   const [isTraining, setIsTraining] = useState(false)
+  const [numberSteps,setNumberSteps] =useState(()=>{return 0})
 
-  // const [agentPosition,setAgentPosition] =useState([0,0])
+  
   let agentPosition = [0, 0]
   for (let i = 0; i < matrixData.length; i++) {
     for (let j = 0; j < matrixData[i].length; j++) {
@@ -109,6 +113,7 @@ function Main() {
         return prevGraphData; // Return the previous state without adding the new value
       }
     });
+    setNumberSteps(prevSteps => prevSteps + 1); 
   }
 
   useEffect(() => {
@@ -118,6 +123,7 @@ function Main() {
       }, intervalDuration);
 
       setIntervalId(interval);
+      // setNumberSteps(numberSteps+1)
 
       return () => clearInterval(interval);
     }
@@ -126,13 +132,8 @@ function Main() {
   const updateMatrix = (newMatrix) => {
     setMatrixData(newMatrix);
   };
-  const updateDrawData = (newDrawingType) => {
-    setDrawdata(newDrawingType);
-  };
   const updateIsPlaying = () => {
-
     setIsPlaying(prevIsPlaying => !prevIsPlaying);
-
   };
   async function runQlearning (n_times){
     if (!isTraining) {
@@ -141,31 +142,38 @@ function Main() {
       setIsPlaying(false)
       let matrixCopy =[...matrixData]
       let qTableCopy =[...qTable]
-
-     
-      
       await new Promise((resolve, reject) => {
-        // Simulate heavy asynchronous task (e.g., fetching data from an API)
+        
        
           let averageQValues = utils.qLearningFaster (matrixCopy,qTableCopy,0.8,0.3,0.9,-0.06,n_times,3,-3)
+          setNumberSteps(prevSteps => prevSteps + n_times); 
           resolve(); // Resolve the promise when the task is complete
        
       });
-      // const newMatrix = [...matrixData];
-      // newMatrix[agentPosition[0]][agentPosition[1]] = 0
       updateMatrix(matrixCopy)
       setqTable(qTableCopy)
-      // agentPosition = [0, 0]
       setIsPlaying(true)
       setIsTraining(false)
       
     }
-
-
-
   }
   const resetTable = () => {
     setIsPlaying(false)
+    setNumberSteps(prevSteps =>0); 
+    for (let i = 0; i < matrixData.length; i++) {
+      for (let j = 0; j < matrixData[i].length; j++) {
+        if (matrixData[i][j] === 1) {
+          // return { row: i, column: j };
+          agentPosition = [i, j]
+          const newMatrix = [...matrixData];
+          newMatrix[agentPosition[0]][agentPosition[1]] = 0
+          newMatrix[0][0] = 1
+          updateMatrix(newMatrix)
+
+          break
+        }
+      }
+    }
     agentPosition = [0, 0]
     let newQTable = utils.initializeQTable(7)
     setqTable(newQTable);
@@ -176,24 +184,25 @@ function Main() {
   };
 
   return (
-    <div className="">
+    
       <div className="wrapper">
         <div className="child config">
-          <div><DrawButton updateDrawData={updateDrawData}
-            drawData={2} title={"obtaculo"}></DrawButton></div>
-          <div><DrawButton updateDrawData={updateDrawData}
-            drawData={4} title={"Recompensa"}></DrawButton></div>
-          <div><DrawButton updateDrawData={updateDrawData}
-            drawData={3} title={"punição"}></DrawButton></div>
+          <ConfigContext.Provider value={{isPlaying,setIsPlaying,drawData,setDrawData}}>
+            <MatrixConfigs></MatrixConfigs>
+          </ConfigContext.Provider>
         </div>
         <div className="child matrix">
+         
+          {/* <Matrix matrix={matrixData}></Matrix> */}
           <Matrix qTable={qTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} />
+          {numberSteps}
           <MatrixControls resetTable={resetTable} runQlearning={runQlearning} updateIsPlaying={updateIsPlaying} ></MatrixControls>
+         
+         
         </div>
-        <div className="child config ">
+        <div className="child graph ">
 
-
-           <ResponsiveContainer width="100%">
+             <ResponsiveContainer width="100%">
             <LineChart
               data={graphData}
               margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
@@ -207,7 +216,7 @@ function Main() {
           </ResponsiveContainer> 
         </div>
       </div>
-    </div>
+    
   );
 }
 
