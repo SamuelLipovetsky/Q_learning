@@ -2,7 +2,7 @@
 import DrawButton from '../matrixConfigs/drawButton/drawButton';
 import Matrix from '../matrix/Matrix'
 import * as utils from "./aux-functions"
-import React, { createContext,useContext,useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './main.css';
 import MatrixControls from '../matrixControls/matrixControls';
@@ -12,25 +12,25 @@ export const ConfigContext = createContext();
 function Main() {
   const [matrixData, setMatrixData] = useState(() => {
     return [
-      [1, 0, 3, 0, 3, 0, 0],
-      [0, 0, 0, 3, 0, 3, 0],
-      [0, 0, 0, 0, 0, 0, 4],
+      [1, 0, 0, 0, 0, 0, 3],
+      [0, 0, 0, 0, 3, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 3, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0],
-      [0, 3, 0, 3, 0, 0, 0],
+      [3, 0, 0, 0, 0, 0, 4],
     ]
   });
   const [graphData, setGraphData] = useState([{ value: 0 }])
   const [qTable, setqTable] = useState(() => { return utils.initializeQTable(7) })
   const [drawData, setDrawData] = useState(0)
-  const [intervalDuration, setIntervalDuration] = useState(50);
+  const [intervalDuration, setIntervalDuration] = useState(100);
   const [intervalId, setIntervalId] = useState(null);
   const [isPlaying, setIsPlaying] = useState(true)
   const [isTraining, setIsTraining] = useState(false)
-  const [numberSteps,setNumberSteps] =useState(()=>{return 0})
+  const [numberSteps, setNumberSteps] = useState(() => { return 0 })
 
-  
+
   let agentPosition = [0, 0]
   for (let i = 0; i < matrixData.length; i++) {
     for (let j = 0; j < matrixData[i].length; j++) {
@@ -50,7 +50,7 @@ function Main() {
     let action;
     let randomIndex;
     let availabeActions;
-    if (Math.random() > 0.8) {
+    if (Math.random() > 0.9) {
       availabeActions = utils.getAvailableActions(matrixData, agentPosition)
       randomIndex = Math.floor(Math.random() * availabeActions.length);
       action = availabeActions[randomIndex]
@@ -59,7 +59,7 @@ function Main() {
     }
 
     const nextState = utils.getNextState(agentPosition, action);
-    const reward = utils.getReward(matrixData, nextState, defaultReward,3,-3);
+    const reward = utils.getReward(matrixData, nextState, defaultReward, 3, -1);
 
     const [agentRow, agentCol] = agentPosition;
     const qValue = qTable[agentRow][agentCol][action];
@@ -69,11 +69,11 @@ function Main() {
     setqTable(newQTable);
     const [nextRow, nextCol] = nextState;
     passos += 1;
-    if (reward == 3 || reward == -3) {
+    if (reward == 3 || reward == -1) {
       const newMatrix = [...matrixData];
       newMatrix[agentRow][agentCol] = 0
       const newQTable = [...qTable];
-      if (reward == -3) {
+      if (reward == -1) {
         newQTable[nextState[0]][nextState[1]] = [-1, -1, -1, -1]
       }
       if (reward == 3) {
@@ -113,7 +113,7 @@ function Main() {
         return prevGraphData; // Return the previous state without adding the new value
       }
     });
-    setNumberSteps(prevSteps => prevSteps + 1); 
+    setNumberSteps(prevSteps => prevSteps + 1);
   }
 
   useEffect(() => {
@@ -135,31 +135,31 @@ function Main() {
   const updateIsPlaying = () => {
     setIsPlaying(prevIsPlaying => !prevIsPlaying);
   };
-  async function runQlearning (n_times){
+  async function runQlearning(n_times) {
     if (!isTraining) {
-     
+
       setIsTraining(true)
       setIsPlaying(false)
-      let matrixCopy =[...matrixData]
-      let qTableCopy =[...qTable]
+      let matrixCopy = [...matrixData]
+      let qTableCopy = [...qTable]
       await new Promise((resolve, reject) => {
-        
-       
-          let averageQValues = utils.qLearningFaster (matrixCopy,qTableCopy,0.8,0.3,0.9,-0.06,n_times,3,-3)
-          setNumberSteps(prevSteps => prevSteps + n_times); 
-          resolve(); // Resolve the promise when the task is complete
-       
+
+
+        let averageQValues = utils.qLearningFaster(matrixCopy, qTableCopy, 0.8, 0.3, 0.9, -0.06, n_times, 3, -3)
+        setNumberSteps(prevSteps => prevSteps + n_times);
+        resolve(); // Resolve the promise when the task is complete
+
       });
       updateMatrix(matrixCopy)
       setqTable(qTableCopy)
       setIsPlaying(true)
       setIsTraining(false)
-      
+
     }
   }
   const resetTable = () => {
     setIsPlaying(false)
-    setNumberSteps(prevSteps =>0); 
+    setNumberSteps(prevSteps => 0);
     for (let i = 0; i < matrixData.length; i++) {
       for (let j = 0; j < matrixData[i].length; j++) {
         if (matrixData[i][j] === 1) {
@@ -184,39 +184,38 @@ function Main() {
   };
 
   return (
-    
-      <div className="wrapper">
-        <div className="child config">
-          <ConfigContext.Provider value={{isPlaying,setIsPlaying,drawData,setDrawData}}>
+
+    <div className="wrapper">
+
+      <div className="child matrix-div">
+        <div className='config'>
+          <ConfigContext.Provider value={{ isPlaying, setIsPlaying, drawData, setDrawData }}>
             <MatrixConfigs></MatrixConfigs>
           </ConfigContext.Provider>
         </div>
-        <div className="child matrix">
-         
-          {/* <Matrix matrix={matrixData}></Matrix> */}
+        <div className='matrix'>
           <Matrix qTable={qTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} />
-          {numberSteps}
-          <MatrixControls resetTable={resetTable} runQlearning={runQlearning} updateIsPlaying={updateIsPlaying} ></MatrixControls>
-         
-         
         </div>
-        <div className="child graph ">
 
-             <ResponsiveContainer width="100%">
-            <LineChart
-              data={graphData}
-              margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="Average Max Qvalues" stroke="#8884d8" />
-            </LineChart>
-          </ResponsiveContainer> 
-        </div>
+
       </div>
-    
+      <div className="child graph ">
+
+        <ResponsiveContainer width="100%">
+          <LineChart
+            data={graphData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="Average Max Qvalues" stroke="#8884d8" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+
   );
 }
 

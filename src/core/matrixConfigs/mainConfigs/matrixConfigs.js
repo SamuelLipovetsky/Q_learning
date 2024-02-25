@@ -6,27 +6,38 @@ import ConfigCell from './configCell';
 import "./matrixConfig.css"
 function MatrixConfigs(props) {
 
-    const [openMenu, setOpenMenu] = useState("none")
+    const [openMenu, setOpenMenu] = useState(0)
     const [showComponents, setShowComponents] =useState([false,false,false])
     const handleclick = (newShowComponents) =>{
-        console.log(showComponents)
-        setShowComponents(()=>{return newShowComponents})
+        
+
+        if(newShowComponents.indexOf(true)!=showComponents.indexOf(true)){
+        setShowComponents([false,false,false])
+        setOpenMenu(newShowComponents.indexOf(true) +1)
+
+        // setShowComponents(()=>{return newShowComponents})
+        setTimeout(() => {
+            setShowComponents(newShowComponents);
+           
+        }, 501);
+    }
         
     }
     return (
-        <div className='menu'>
-            <button  className='cell'onClick={()=>handleclick([true,false,false])} >
-                <ConfigCell title={"Alterar as Celulas"} showComponent={showComponents[0]}
+        <div className={`menu options-${openMenu}`}>
+            <div  className='cell'onClick={()=>handleclick([true,false,false])} >
+                <ConfigCell title={"Celulas"} showComponent={showComponents[0]}
                     component={<DrawButtonCluster />}></ConfigCell>
-            </button>
-            <button  className='cell'onClick={()=>handleclick([false,true,false])} >
-                <ConfigCell title={"Alterar Variáveis"} showComponent={showComponents[1]}
+            </div>
+            <div  className='cell'onClick={()=>handleclick([false,true,false])} >
+                <ConfigCell title={"Variáveis"} showComponent={showComponents[1]}
                     component={<DrawButtonCluster />}></ConfigCell>
-            </button>
-            <button   className='cell' onClick={()=>handleclick([false,false,true])} >
-                <ConfigCell title={"Mostrar gráficos"} showComponent={showComponents[2]}
+            </div>
+            <div   className='cell' onClick={()=>handleclick([false,false,true])} >
+                <ConfigCell title={"Gráficos"} showComponent={showComponents[2]}
                     component={<DrawButtonCluster />}></ConfigCell>
-            </button>
+            </div>
+            
         </div>
     );
 }

@@ -5,8 +5,8 @@
   gap: 3px;
   width: 90%;
   height: 90%;
-  /* min-width: 400px; */
-  /* min-height: 400px; */
+  min-width: 300px;
+  min-height: 300px;
   /* max-height: 400px; */
 
 }
@@ -55,9 +55,9 @@
   /* width: 14%; Adjust as needed */
   /* height: 14%; Equal to width to maintain square shape */
   flex:1;
-  border-radius: 5px;
+  border-radius:10%;
   opacity: 0.6;
   box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.5);
   aspect-ratio: 1; 
-  transition: color 0.3s ease
+ 
 }

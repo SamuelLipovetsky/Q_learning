@@ -10,14 +10,14 @@ function DrawButton(props) {
     const handleClick = () => {
         setIsDrawing(previsDrawing => { return !previsDrawing })
         
-        // console.log(isPlaying,setIsPlaying,drawData,setDrawData)
+        
         setDrawData(props.option)
         
     }
 
     return (
         <button className="drawButton" onClick={handleClick}>
-           celulas de  {props.title}
+           {props.title}
         </button>
     );
 }

@@ -6,7 +6,7 @@ function DrawButtonCluster(props) {
 
  
     return (
-        <div>
+        <div className='cluster'>
             <div>
                 <DrawButton
                     option={2} title={"obtaculo"}></DrawButton>
@@ -19,6 +19,7 @@ function DrawButtonCluster(props) {
                 <DrawButton
                     option={3} title={"punição"}></DrawButton>
             </div>
+            
 
         </div>
     );
