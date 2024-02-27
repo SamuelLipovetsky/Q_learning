@@ -186,19 +186,26 @@ function Main() {
   return (
 
     <div className="wrapper">
-
+     
       <div className="child matrix-div">
-        <div className='config'>
-          <ConfigContext.Provider value={{ isPlaying, setIsPlaying, drawData, setDrawData }}>
-            <MatrixConfigs></MatrixConfigs>
-          </ConfigContext.Provider>
-        </div>
-        <div className='matrix'>
-          <Matrix qTable={qTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} />
-        </div>
 
+          <div className='config'>
+            <ConfigContext.Provider value={{ isPlaying, setIsPlaying, drawData, setDrawData }}>
+              <MatrixConfigs></MatrixConfigs>
+            </ConfigContext.Provider>
+          </div>
+          <div className='matrix'>
+            <Matrix qTable={qTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} />
+          </div>
+          <div className='filler'></div>
+          <div className='matrix-controls'>
+          <MatrixControls isPlaying={isPlaying} resetTable={resetTable} runQlearning={runQlearning} updateIsPlaying={updateIsPlaying} ></MatrixControls>
+          </div>
+        
 
+          
       </div>
+
       <div className="child graph ">
 
         <ResponsiveContainer width="100%">

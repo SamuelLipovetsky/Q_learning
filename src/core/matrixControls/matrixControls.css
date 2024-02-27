@@ -1,10 +1,19 @@
 .matrix-control {
+    display: grid;
+    justify-content: left;
+    /* align-items: gri-start;  */
+    /* max-width: 80%; */
+    grid-template-columns: 1fr 3fr 1fr 2fr ;
+    padding-top: 2%;
+    gap: 3px;
+    min-width: 300px;
+    width: 100%;
+    height: 100%;  
+}
+
+.div-control{
     display: flex;
-    justify-content: center;
-    align-items: center; 
-    /* min-width: 400px; */
-    width: 90%;
-    height: 90%;  
-    padding-top: 5%;
-    
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
 }
