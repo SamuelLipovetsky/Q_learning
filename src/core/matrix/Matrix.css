@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(7, 1fr);
-  gap: 3px;
+  gap: 2px;
   /* width: 90%; */
   /* height: 90%; */
  
@@ -12,7 +12,7 @@
 
 .row {
   display: flex;
-  gap: 3px;
+  gap: 2px;
 }
 
 /* path */
@@ -54,9 +54,21 @@
   /* width: 14%; Adjust as needed */
   /* height: 14%; Equal to width to maintain square shape */
   flex:1;
-  border-radius:10%;
+  /* border-radius:10%; */
   opacity: 0.6;
   box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.5);
   aspect-ratio: 1; 
- 
+}
+
+.corner-0{
+border-top-left-radius: 10%;
+}
+.corner-1{
+  border-bottom-left-radius: 10%;
+}
+.corner-2{
+  border-top-right-radius: 10%;
+}
+.corner-3{
+  border-bottom-right-radius: 10%;
 }

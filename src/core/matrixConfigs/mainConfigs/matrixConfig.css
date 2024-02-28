@@ -30,19 +30,19 @@
 }
 .top{
     box-sizing: border-box;
-    border-bottom: solid 2px ;
+    border-bottom: solid 1px ;
     border-color: #242838;
     border-radius: 4px;
 }
 .mid{
     box-sizing: border-box;
-    border-bottom: solid 2px ;
-    border-top: solid 2px ;
+    border-bottom: solid 1px ;
+    border-top: solid 1px ;
     border-color: #242838;
     border-radius: 4px;
 }
 .bot{
-    border-top: solid 2px ;
+    border-top: solid 1px ;
     box-sizing: border-box;
     border-color: #242838;
     border-radius: 4px;

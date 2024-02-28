@@ -24,14 +24,30 @@ class Matrix extends React.Component {
       this.setState({ data: this.props.initialData });
     }
   }
+  isCorner =(rowIndex,colIndex)=>{
+    if(colIndex==0 && rowIndex==0){
+      return "corner-0"
+    }
+    if (colIndex==0 && rowIndex==6){
+      return "corner-1"
+    }
+    if(colIndex==6 && rowIndex==0){
+      return "corner-2"
+    }
+    if(colIndex==6 && rowIndex==6){
+      return "corner-3"
+    }
 
+    
+
+  }
   render() {
     const rows = this.state.data.map((row, rowIndex) => (
       <div className="row" key={rowIndex}>
         {row.map((value, colIndex) => (
           <div
             onClick={() => this.handleClick(rowIndex, colIndex)}
-            className={`matrix-cell color-${value}`}
+            className={`matrix-cell color-${value} ${this.isCorner(rowIndex,colIndex)}`}
             key={`${rowIndex}-${colIndex}`}
           >
             <ArrowDisplay numbers={this.props.qTable[rowIndex][colIndex]}></ArrowDisplay>
