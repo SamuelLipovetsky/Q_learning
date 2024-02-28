@@ -3,10 +3,11 @@
     justify-content: left;
     /* align-items: gri-start;  */
     /* max-width: 80%; */
-    grid-template-columns: 1fr 3fr 1fr 2fr ;
+    grid-template-columns: 1fr 1fr 5fr ;
+    /* grid-template-rows: 1fr 1fr; */
     padding-top: 2%;
     gap: 3px;
-    min-width: 300px;
+    min-width: 15em;
     width: 100%;
     height: 100%;  
 }
@@ -14,6 +15,22 @@
 .div-control{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    /* justify-content: center; */
+    color: white;
+    cursor: pointer
+   
+}
+.text-tip{
+    font-size: 0.9em;
+    margin: 0;
+    color: white;
+    cursor: "pointer"
+}
+.skip-steps{
+    /* display: flex; */
+    /* flex-direction: row; */
+    /* grid-template-columns: 3fr 1fr 1fr; */
+    font-size: 0.8em;
+    color: white;
+    cursor: "pointer"
+    /* max-height: 35%; */
 }

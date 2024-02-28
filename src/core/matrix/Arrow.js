@@ -25,7 +25,7 @@ function ArrowDisplay({ numbers }) {
 
    
     return (
-        <div>
+        <div style={{ width:"100%",height:"100%",color: "white",fontSize:"1.3em",display:"flex",alignItems:"center",justifyContent:"center"}}>
             {arrow}
         </div>
     );

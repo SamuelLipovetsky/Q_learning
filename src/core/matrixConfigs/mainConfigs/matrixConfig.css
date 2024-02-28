@@ -2,23 +2,59 @@
   
     height: 100%;
     /* max-height: 100%; */
-    display: grid;
-    gap: 3px;
+    /* display: grid; */
+    display: flex;
+    flex-direction: column;
+    /* flex-direction: column; */
+    /* gap: 3px; */
     padding-right: 5%;
     padding-left: 5%;
-    transition: grid-template-rows 0.5s ease; 
+    transition: all 0.5s linear; 
+    /* transition-timing-function: cubic-bezier(.29, 1.01, 1, -0.68); */
+    /* max-height: 300px;     */
+
 }
 .cell{
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    /* border-radius: 10%; */
-    /* border: 1px black; */
-    background-color: #3e4a5e
-   
+    
 
+    background-color: #3e4a5e;
+    font-size: 0.9em;
+    color: white;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.5s linear; 
+    /* padding-top: 1.5px; */
 }
+.top{
+    box-sizing: border-box;
+    border-bottom: solid 2px ;
+    border-color: #242838;
+    border-radius: 4px;
+}
+.mid{
+    box-sizing: border-box;
+    border-bottom: solid 2px ;
+    border-top: solid 2px ;
+    border-color: #242838;
+    border-radius: 4px;
+}
+.bot{
+    border-top: solid 2px ;
+    box-sizing: border-box;
+    border-color: #242838;
+    border-radius: 4px;
+}
+.false{
+    height: 14.2857142857% ;
+}
+.true{
+    height: 71.4285714286%;
+}
+
+
 .options-0{
     grid-template-rows: repeat(7,1fr);
 }

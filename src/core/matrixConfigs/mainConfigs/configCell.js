@@ -1,7 +1,7 @@
 
 import React, { useState, useContext } from 'react';
 
-import {ConfigContext}  from "../../main/main"
+
 function ConfigCell(props) {
     let toRender
     if(props.showComponent==false){
@@ -10,11 +10,7 @@ function ConfigCell(props) {
     else{
         toRender =props.component
     }
-    return (
-        <div>
-          {toRender}
-        </div>
-    );
+    return ( toRender);
 }
 
 export default ConfigCell;
