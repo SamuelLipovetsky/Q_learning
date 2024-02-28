@@ -60,15 +60,15 @@
   aspect-ratio: 1; 
 }
 
-.corner-0{
-border-top-left-radius: 10%;
-}
+/* .corner-0{
+border-top-left-radius: 1vh;
+} */
 .corner-1{
-  border-bottom-left-radius: 10%;
+  border-bottom-left-radius: 2vh;
 }
 .corner-2{
-  border-top-right-radius: 10%;
+  border-top-right-radius: 2vh;
 }
 .corner-3{
-  border-bottom-right-radius: 10%;
+  border-bottom-right-radius: 2vh;
 }

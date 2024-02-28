@@ -32,20 +32,21 @@
     box-sizing: border-box;
     border-bottom: solid 1px ;
     border-color: #242838;
-    border-radius: 4px;
+    
+    border-top-left-radius: 2vh;
 }
 .mid{
     box-sizing: border-box;
     border-bottom: solid 1px ;
     border-top: solid 1px ;
     border-color: #242838;
-    border-radius: 4px;
+    
 }
 .bot{
     border-top: solid 1px ;
     box-sizing: border-box;
     border-color: #242838;
-    border-radius: 4px;
+    border-bottom-left-radius: 2vh;
 }
 .false{
     height: 14.2857142857% ;
