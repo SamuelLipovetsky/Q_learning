@@ -1,5 +1,4 @@
 
-import DrawButton from '../matrixConfigs/drawButton/drawButton';
 import Matrix from '../matrix/Matrix'
 import * as utils from "./aux-functions"
 import React, { createContext, useContext, useState, useEffect } from 'react';
@@ -29,6 +28,11 @@ function Main() {
   const [isPlaying, setIsPlaying] = useState(true)
   const [isTraining, setIsTraining] = useState(false)
   const [numberSteps, setNumberSteps] = useState(() => { return 0 })
+  const [learningRateState,setLearningate] = useState(0.3)
+  const [discountFactorState,setDiscountFactor] = useState(0.9)
+  const [defaultReward,setDefaultReward] =useState(3)
+  const [negativeDefaultReward,setNegativeDefaultReward] =useState(-3)
+  const [alpha,setAlpha] = useState(0.90)
 
 
   let agentPosition = [0, 0]
@@ -50,7 +54,7 @@ function Main() {
     let action;
     let randomIndex;
     let availabeActions;
-    if (Math.random() > 0.9) {
+    if (Math.random() > alpha) {
       availabeActions = utils.getAvailableActions(matrixData, agentPosition)
       randomIndex = Math.floor(Math.random() * availabeActions.length);
       action = availabeActions[randomIndex]
@@ -147,7 +151,7 @@ function Main() {
 
         let averageQValues = utils.qLearningFaster(matrixCopy, qTableCopy, 0.8, 0.3, 0.9, -0.06, n_times, 3, -3)
         setNumberSteps(prevSteps => prevSteps + n_times);
-        resolve(); // Resolve the promise when the task is complete
+        resolve(); 
 
       });
       updateMatrix(matrixCopy)

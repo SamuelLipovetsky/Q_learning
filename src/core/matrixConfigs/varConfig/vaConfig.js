@@ -2,7 +2,7 @@ import React, { useState,useContext } from 'react';
 
 import "./drawConfig.css"
 import {ConfigContext}  from "../../main/main"
-function DrawRadioButtons() {
+function varConfig() {
     const [selectedOption, setSelectedOption] = useState('option1');
     const  {isPlaying,setIsPlaying,drawData,setDrawData}  = useContext(ConfigContext);
     const handleOptionChange = (event) => {
@@ -77,4 +77,4 @@ function DrawRadioButtons() {
     );
 }
 
-export default DrawRadioButtons;
+export default varConfig;

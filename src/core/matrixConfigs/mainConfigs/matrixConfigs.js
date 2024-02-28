@@ -1,6 +1,6 @@
 
 import React, { useState, useContext } from 'react';
-import DrawButtonCluster from '../drawButton/drawButtonCluster';
+
 import { ConfigContext } from "../../main/main"
 import ConfigCell from './configCell';
 import DrawRadioButtons from '../drawConfig/drawConfig';
