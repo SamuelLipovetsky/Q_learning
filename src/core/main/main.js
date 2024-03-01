@@ -4,36 +4,50 @@ import * as utils from "./aux-functions"
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './main.css';
+import CellLegend from '../legend/legend';
 import MatrixControls from '../matrixControls/matrixControls';
 import MatrixConfigs from '../matrixConfigs/mainConfigs/matrixConfigs';
-export const ConfigContext = createContext();
 
+export const ConfigContext = createContext();
 function Main() {
   const [matrixData, setMatrixData] = useState(() => {
     return [
-      [1, 0, 0, 0, 0, 0, 3],
+      [1, 0, 2, 0, 0, 0, 3],
       [0, 0, 0, 0, 3, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0],
+      [0, 3, 0, 0, 0, 0, 0],
       [0, 0, 0, 3, 0, 0, 0],
+      [0, 2, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0],
-      [3, 0, 0, 0, 0, 0, 4],
+      [3, 0, 4, 0, 0, 0, 0],
     ]
   });
+  const [stepsGraphData, setStepsGraphData] = useState([{value:0}])
   const [graphData, setGraphData] = useState([{ value: 0 }])
   const [qTable, setqTable] = useState(() => { return utils.initializeQTable(7) })
   const [drawData, setDrawData] = useState(0)
-  const [intervalDuration, setIntervalDuration] = useState(100);
+  const [intervalDuration, setIntervalDuration] = useState(50);
   const [intervalId, setIntervalId] = useState(null);
   const [isPlaying, setIsPlaying] = useState(true)
   const [isTraining, setIsTraining] = useState(false)
   const [numberSteps, setNumberSteps] = useState(() => { return 0 })
-  const [learningRateState,setLearningate] = useState(0.3)
-  const [discountFactorState,setDiscountFactor] = useState(0.9)
-  const [defaultReward,setDefaultReward] =useState(3)
-  const [negativeDefaultReward,setNegativeDefaultReward] =useState(-3)
-  const [alpha,setAlpha] = useState(0.90)
+  const [learningRateState, setLearningate] = useState(0.5)
+  const [discountFactorState, setDiscountFactor] = useState(0.9)
+  const [defaultRewardState, setDefaultRewardState] = useState(-0.1)
+  const [positiveDefaultReward, setPositiveDefaultReward] = useState(3)
+  const [negativeDefaultReward, setNegativeDefaultReward] = useState(-1)
+  const [epsilon, setEpsilon] = useState(0.90)
+  const [loses,setLoses] = useState(0)
+  const [wins,setWins] = useState(0)
 
+  const varConfigFunctionsAndStates ={
+    learningRateState,setLearningate,
+    discountFactorState,setDiscountFactor,
+    defaultRewardState,setDefaultRewardState,
+    positiveDefaultReward,setPositiveDefaultReward,
+    negativeDefaultReward,setNegativeDefaultReward,
+    epsilon,setEpsilon
+
+  }
 
   let agentPosition = [0, 0]
   for (let i = 0; i < matrixData.length; i++) {
@@ -46,7 +60,7 @@ function Main() {
     }
   }
 
-  let passos = 0
+  
   const qLearningState = (learningRate, discountFactor, defaultReward) => {
     const numStates = matrixData.length;
     const numActions = 4;
@@ -54,7 +68,7 @@ function Main() {
     let action;
     let randomIndex;
     let availabeActions;
-    if (Math.random() > alpha) {
+    if (Math.random() > epsilon) {
       availabeActions = utils.getAvailableActions(matrixData, agentPosition)
       randomIndex = Math.floor(Math.random() * availabeActions.length);
       action = availabeActions[randomIndex]
@@ -63,7 +77,7 @@ function Main() {
     }
 
     const nextState = utils.getNextState(agentPosition, action);
-    const reward = utils.getReward(matrixData, nextState, defaultReward, 3, -1);
+    const reward = utils.getReward(matrixData, nextState, defaultReward, positiveDefaultReward, negativeDefaultReward);
 
     const [agentRow, agentCol] = agentPosition;
     const qValue = qTable[agentRow][agentCol][action];
@@ -72,23 +86,37 @@ function Main() {
     newQTable[agentRow][agentCol][action] += learningRate * (reward + discountFactor * maxQValue - qValue);
     setqTable(newQTable);
     const [nextRow, nextCol] = nextState;
-    passos += 1;
-    if (reward == 3 || reward == -1) {
+  
+    if (reward == positiveDefaultReward || reward == negativeDefaultReward) {
       const newMatrix = [...matrixData];
       newMatrix[agentRow][agentCol] = 0
       const newQTable = [...qTable];
-      if (reward == -1) {
+      if (reward == negativeDefaultReward) {
+
+        
+        setLoses(prevLoses=>{return prevLoses+1})
+
         newQTable[nextState[0]][nextState[1]] = [-1, -1, -1, -1]
       }
-      if (reward == 3) {
+      if (reward == positiveDefaultReward) {
+        // setStepsGraphData()
+        let sumWinSteps = stepsGraphData.reduce((accumulator, currentValue) => {
+          console.log(currentValue["Passos até a vitória"],accumulator)
+          return accumulator + currentValue["Passos até a vitória"];
+        }, 0)
+       
+      //   setStepsGraphData(prevStepsGraphData => {
+          
+      //     return prevStepsGraphData.concat(passos);
+      
+      // });
+        setWins(prevWins=>{return prevWins+1})
+
         newQTable[nextState[0]][nextState[1]] = [+1, +1, +1, +1]
       }
       setqTable(newQTable);
       updateMatrix(newMatrix)
-      if (reward == 1) {
-
-      }
-      passos = 0
+      
       agentPosition = [0, 0]
 
     }
@@ -107,12 +135,11 @@ function Main() {
       acc + subArray.reduce((subAcc, val) => subAcc + val, 0), 0
     );
     const average_max_q = totalSum / (qTable.length * qTable[0].length);
-    // setGraphData(prevGraphData => [...prevGraphData, { value: average_max_q }]);
     setGraphData(prevGraphData => {
       const shouldAddValue = Math.random() < 0.05; // Random check to determine whether to add the value or not
 
       if (shouldAddValue) {
-        return [...prevGraphData, { "Average Max Qvalues": average_max_q }];
+        return [...prevGraphData, { "Média Q-values": average_max_q }];
       } else {
         return prevGraphData; // Return the previous state without adding the new value
       }
@@ -123,11 +150,11 @@ function Main() {
   useEffect(() => {
     if (isPlaying) {
       const interval = setInterval(() => {
-        qLearningState(0.3, 0.9, -0.06);
+        qLearningState(learningRateState, discountFactorState, defaultRewardState);
       }, intervalDuration);
 
       setIntervalId(interval);
-      // setNumberSteps(numberSteps+1)
+
 
       return () => clearInterval(interval);
     }
@@ -141,22 +168,42 @@ function Main() {
   };
   async function runQlearning(n_times) {
     if (!isTraining) {
-
       setIsTraining(true)
+      let originalPlaying =isPlaying;
       setIsPlaying(false)
+      
       let matrixCopy = [...matrixData]
       let qTableCopy = [...qTable]
+      let averageQValues
+      let stepsTilWIn
       await new Promise((resolve, reject) => {
 
 
-        let averageQValues = utils.qLearningFaster(matrixCopy, qTableCopy, 0.8, 0.3, 0.9, -0.06, n_times, 3, -3)
+        [stepsTilWIn,averageQValues] = utils.qLearningFaster(matrixCopy, qTableCopy, epsilon, learningRateState, discountFactorState, defaultRewardState,
+          n_times, positiveDefaultReward, negativeDefaultReward)
+         
+          setGraphData(prevGraphData => {
+            
+            return prevGraphData.concat(averageQValues);
+            
+        
+        });
+
+        setStepsGraphData(prevStepsGraphData => {
+          
+          return prevStepsGraphData.concat(stepsTilWIn);
+      
+      });
+   
+       
         setNumberSteps(prevSteps => prevSteps + n_times);
-        resolve(); 
+        resolve();
 
       });
+     
       updateMatrix(matrixCopy)
       setqTable(qTableCopy)
-      setIsPlaying(true)
+      setIsPlaying(originalPlaying)
       setIsTraining(false)
 
     }
@@ -167,7 +214,7 @@ function Main() {
     for (let i = 0; i < matrixData.length; i++) {
       for (let j = 0; j < matrixData[i].length; j++) {
         if (matrixData[i][j] === 1) {
-          // return { row: i, column: j };
+         
           agentPosition = [i, j]
           const newMatrix = [...matrixData];
           newMatrix[agentPosition[0]][agentPosition[1]] = 0
@@ -181,6 +228,13 @@ function Main() {
     agentPosition = [0, 0]
     let newQTable = utils.initializeQTable(7)
     setqTable(newQTable);
+    setStepsGraphData([])
+    setGraphData([])
+    setLoses(0)
+    setWins(0)
+    setNumberSteps(0)
+    // const [loses,setLoses] = useState(0)
+    // const [wins,setWins] = useState(0)
 
   }
   const handleSliderChange = (event) => {
@@ -190,30 +244,47 @@ function Main() {
   return (
 
     <div className="wrapper">
-     
+
       <div className="child matrix-div">
 
-          <div className='config'>
-            <ConfigContext.Provider value={{ isPlaying, setIsPlaying, drawData, setDrawData }}>
-              <MatrixConfigs></MatrixConfigs>
-            </ConfigContext.Provider>
-          </div>
-          <div className='matrix'>
-            <Matrix qTable={qTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} />
-          </div>
-          <div className='filler'> 
-          </div>
-          <div className='matrix-controls'>
-          <MatrixControls isPlaying={isPlaying} resetTable={resetTable} runQlearning={runQlearning} updateIsPlaying={updateIsPlaying} ></MatrixControls>
-          </div>
-        
+        <div className='config'>
+          <ConfigContext.Provider value={{ isPlaying, setIsPlaying, drawData, setDrawData }}>
+            <MatrixConfigs></MatrixConfigs>
+          </ConfigContext.Provider>
+        </div>
+        <div className='matrix'>
+          <Matrix qTable={qTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} />
+        </div>
 
+       
+        <div className='filler'>
+        </div>
+        <div className='matrix-controls'>
           
+          <MatrixControls isPlaying={isPlaying} resetTable={resetTable} runQlearning={runQlearning} updateIsPlaying={updateIsPlaying} ></MatrixControls>
+        </div>
+
+
+
       </div>
 
       <div className="child graph ">
-
-        <ResponsiveContainer width="100%">
+        Passos:{numberSteps}
+        Derrotas:{loses}
+        Vitórias:{wins}
+        <ResponsiveContainer  width="100%">
+          <LineChart
+            data={stepsGraphData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="Passos até a vitória" stroke="#8884d8"  dot={false}  />
+          </LineChart>
+        </ResponsiveContainer>
+        <ResponsiveContainer   width="100%">
           <LineChart
             data={graphData}
             margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
@@ -222,9 +293,10 @@ function Main() {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="Average Max Qvalues" stroke="#8884d8" />
+            <Line type="monotone" dataKey="Média Q-values" stroke="#8884d8"  dot={false}  />
           </LineChart>
         </ResponsiveContainer>
+        
       </div>
     </div>
 

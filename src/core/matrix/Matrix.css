@@ -30,10 +30,14 @@
 /* lose */
 .color-3 {
   background-color: red;
+ 
+  
 }
 /* win */
 .color-4 {
   background-color: green;
+  
+  
 }
 .child-grid {
   display: flex;
@@ -51,13 +55,13 @@
 }
 
 .matrix-cell {
-  /* width: 14%; Adjust as needed */
-  /* height: 14%; Equal to width to maintain square shape */
+ 
   flex:1;
   /* border-radius:10%; */
   opacity: 0.6;
   box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.5);
   aspect-ratio: 1; 
+  transition: all 0.1s ease;
 }
 
 /* .corner-0{

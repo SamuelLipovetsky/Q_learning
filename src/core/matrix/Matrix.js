@@ -1,6 +1,7 @@
 import React from 'react';
 import './Matrix.css';
 import ArrowDisplay from "./Arrow.js"
+import { initializeQTable } from '../main/aux-functions.js';
 class Matrix extends React.Component {
   constructor(props) {
     super(props);
@@ -50,7 +51,7 @@ class Matrix extends React.Component {
             className={`matrix-cell color-${value} ${this.isCorner(rowIndex,colIndex)}`}
             key={`${rowIndex}-${colIndex}`}
           >
-            <ArrowDisplay numbers={this.props.qTable[rowIndex][colIndex]}></ArrowDisplay>
+            <ArrowDisplay numbers={this.props.qTable[rowIndex][colIndex]} type={this.props.initialData[rowIndex][colIndex]} ></ArrowDisplay>
           </div>
         ))}
       </div>

@@ -79,7 +79,7 @@ export function getReward(grid, state, defaultReward,posRewad,negRewad) {
 export function getNextState(state, action) {
 
     const [row, col] = state;
-    // console.log(action)
+
     if (action === 0) {
         return [row - 1, col];
     } else if (action === 1) {
@@ -100,6 +100,8 @@ export function qLearningFaster(matrixData, qTable, epsilon, learningRate, disco
     let availabeActions;
     let agentPosition = [0, 0]
     let qValues =[]
+    let stepsTilWin=[]
+    let steps=0
     for (let i = 0; i < iterations; i++) {
         if (Math.random() > epsilon) {
             availabeActions = getAvailableActions(matrixData, agentPosition)
@@ -124,6 +126,9 @@ export function qLearningFaster(matrixData, qTable, epsilon, learningRate, disco
                 qTable[nextState[0]][nextState[1]] = [-1, -1, -1, -1]
             }
             if (reward == 3) {
+                // stepsTilWin =[...stepsTilWin,steps]
+                stepsTilWin=[...stepsTilWin , { "Passos até a vitória": steps}];
+                steps=0;
                 qTable[nextState[0]][nextState[1]] = [+1, +1, +1, +1]
             }
 
@@ -149,9 +154,11 @@ export function qLearningFaster(matrixData, qTable, epsilon, learningRate, disco
         const shouldAddValue = Math.random() < 0.05; // Random check to determine whether to add the value or not
 
         if (shouldAddValue) {
-            qValues=[...qValues , { "Average Max Qvalues": average_max_q }];
+            qValues=[...qValues , { "Média Q-values": average_max_q }];
         }
-
+        
+        steps+=1;
     }
-    return qValues
+    // console.log(qValues)
+    return [stepsTilWin,qValues]
 }
