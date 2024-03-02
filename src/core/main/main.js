@@ -9,6 +9,8 @@ import MatrixControls from '../matrixControls/matrixControls';
 import MatrixConfigs from '../matrixConfigs/mainConfigs/matrixConfigs';
 
 export const ConfigContext = createContext();
+ 
+let stepsWin=0;
 function Main() {
   const [matrixData, setMatrixData] = useState(() => {
     return [
@@ -21,7 +23,7 @@ function Main() {
       [3, 0, 4, 0, 0, 0, 0],
     ]
   });
-  const [stepsGraphData, setStepsGraphData] = useState([{value:0}])
+  const [stepsGraphData, setStepsGraphData] = useState([])
   const [graphData, setGraphData] = useState([{ value: 0 }])
   const [qTable, setqTable] = useState(() => { return utils.initializeQTable(7) })
   const [drawData, setDrawData] = useState(0)
@@ -38,6 +40,7 @@ function Main() {
   const [epsilon, setEpsilon] = useState(0.90)
   const [loses,setLoses] = useState(0)
   const [wins,setWins] = useState(0)
+
 
   const varConfigFunctionsAndStates ={
     learningRateState,setLearningate,
@@ -93,23 +96,22 @@ function Main() {
       const newQTable = [...qTable];
       if (reward == negativeDefaultReward) {
 
-        
         setLoses(prevLoses=>{return prevLoses+1})
 
         newQTable[nextState[0]][nextState[1]] = [-1, -1, -1, -1]
       }
       if (reward == positiveDefaultReward) {
-        // setStepsGraphData()
-        let sumWinSteps = stepsGraphData.reduce((accumulator, currentValue) => {
-          console.log(currentValue["Passos até a vitória"],accumulator)
-          return accumulator + currentValue["Passos até a vitória"];
-        }, 0)
-       
-      //   setStepsGraphData(prevStepsGraphData => {
-          
-      //     return prevStepsGraphData.concat(passos);
       
-      // });
+        console.log(stepsWin)
+        let temp = stepsWin
+        setStepsGraphData(prevStepsGraphData => {
+          
+          return [...prevStepsGraphData,{"Passos até a vitória": temp}];
+      
+        });
+      
+       stepsWin=0;
+
         setWins(prevWins=>{return prevWins+1})
 
         newQTable[nextState[0]][nextState[1]] = [+1, +1, +1, +1]
@@ -121,6 +123,7 @@ function Main() {
 
     }
     else {
+    
       agentPosition = nextState
       const newMatrix = [...matrixData];
       newMatrix[agentRow][agentCol] = 0
@@ -145,6 +148,10 @@ function Main() {
       }
     });
     setNumberSteps(prevSteps => prevSteps + 1);
+    stepsWin+=1;
+   
+    
+   
   }
 
   useEffect(() => {
@@ -152,7 +159,7 @@ function Main() {
       const interval = setInterval(() => {
         qLearningState(learningRateState, discountFactorState, defaultRewardState);
       }, intervalDuration);
-
+      
       setIntervalId(interval);
 
 
@@ -269,9 +276,22 @@ function Main() {
       </div>
 
       <div className="child graph ">
-        Passos:{numberSteps}
-        Derrotas:{loses}
-        Vitórias:{wins}
+      
+        {/* <p> Passos:{numberSteps} </p> 
+        <p> Derrotas:{loses} </p>
+        <p> Vitórias:{wins} </p> */}
+                <ResponsiveContainer   width="100%">
+          <LineChart
+            data={graphData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="Média Q-values" stroke="#8884d8"  dot={false}  />
+          </LineChart>
+        </ResponsiveContainer>
         <ResponsiveContainer  width="100%">
           <LineChart
             data={stepsGraphData}
@@ -284,18 +304,7 @@ function Main() {
             <Line type="monotone" dataKey="Passos até a vitória" stroke="#8884d8"  dot={false}  />
           </LineChart>
         </ResponsiveContainer>
-        <ResponsiveContainer   width="100%">
-          <LineChart
-            data={graphData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="Média Q-values" stroke="#8884d8"  dot={false}  />
-          </LineChart>
-        </ResponsiveContainer>
+
         
       </div>
     </div>
