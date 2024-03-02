@@ -21,10 +21,11 @@
   min-width: 25em;
   max-width: 40em;
   /* width: 80%; */
-  grid-template-columns: 2fr 7fr;
+  grid-template-columns: 1fr;
   grid-template-rows:4fr 1fr;
-  justify-content: center; 
-  align-items: start; 
+  /* justify-content: center;  */
+  /* align-items: center;  */
+  place-items: center;
   gap: 3px;
   margin: auto;
   
@@ -35,11 +36,13 @@
   min-width: 15em;
   max-width: 80%; 
   height: 100%;
+  width: 70%;
   
 }
 .matrix{
   min-width: 15em;
-  max-width: 80%; 
+  /* max-width: 80%;  */
+  width: 70%;
 }
 .config{
   

@@ -64,9 +64,9 @@
   transition: all 0.1s ease;
 }
 
-/* .corner-0{
-border-top-left-radius: 1vh;
-} */
+.corner-0{
+border-top-left-radius: 2vh;
+}
 .corner-1{
   border-bottom-left-radius: 2vh;
 }
