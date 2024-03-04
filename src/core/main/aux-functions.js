@@ -91,6 +91,7 @@ export function getNextState(state, action) {
     }
 }
 
+  
 export function qLearningFaster(matrixData, qTable, epsilon, learningRate, discountFactor, defaultReward, iterations,posRewad,negRewad){
     const numStates = matrixData.length;
     const numActions = 4;
@@ -149,16 +150,19 @@ export function qLearningFaster(matrixData, qTable, epsilon, learningRate, disco
             acc + subArray.reduce((subAcc, val) => subAcc + val, 0), 0
         );
         const average_max_q = totalSum / (qTable.length * qTable[0].length);
+        qValues=[...qValues , { "Média Q-values": average_max_q }]
+        
         // setGraphData(prevGraphData => [...prevGraphData, { value: average_max_q }]);
 
-        const shouldAddValue = Math.random() < 0.05; // Random check to determine whether to add the value or not
+        // const shouldAddValue = Math.random() < 0.05; // Random check to determine whether to add the value or not
 
-        if (shouldAddValue) {
-            qValues=[...qValues , { "Média Q-values": average_max_q }];
-        }
+        // if (shouldAddValue) {
+        //     qValues=[...qValues , { "Média Q-values": average_max_q }];
+        // }
         
         steps+=1;
     }
     // console.log(qValues)
+    // qValues=limitDataPoints(qValues,100)
     return [stepsTilWin,qValues]
 }

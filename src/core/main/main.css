@@ -41,27 +41,19 @@
 }
 .matrix{
   min-width: 15em;
-  /* max-width: 80%;  */
   width: 70%;
 }
 .config{
-  
-
   height: 100%; 
-
   align-items: center;
   justify-content: center;
 
 } 
 .graph{
- 
   align-items: center;
   justify-content: center;
- 
   display: flex;
   flex-direction: column;
-  
-
 }
 .child{
     flex: 1;

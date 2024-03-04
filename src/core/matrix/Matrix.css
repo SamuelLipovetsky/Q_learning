@@ -3,11 +3,6 @@
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(7, 1fr);
   gap: 2px;
-  /* width: 90%; */
-  /* height: 90%; */
- 
-  /* max-height: 400px; */
-
 }
 
 .row {
@@ -30,14 +25,10 @@
 /* lose */
 .color-3 {
   background-color: red;
- 
-  
 }
 /* win */
 .color-4 {
   background-color: green;
-  
-  
 }
 .child-grid {
   display: flex;
@@ -47,6 +38,8 @@
   flex:1;
   display: flex;
   flex-direction: column;
+  box-sizing: content-box;
+  transition: all 0.2s ease;
   
 }
 
@@ -61,7 +54,7 @@
   opacity: 0.6;
   box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.5);
   aspect-ratio: 1; 
-  transition: all 0.1s ease;
+  transition: all 0.05s ease;
 }
 
 .corner-0{
@@ -75,4 +68,33 @@ border-top-left-radius: 2vh;
 }
 .corner-3{
   border-bottom-right-radius: 2vh;
+}
+
+.border-5{
+  border: #242839 solid 4px;
+  border-radius: 2vh;
+}
+/* path */
+.border-0 {
+  border: #3e4a5e solid 4px;
+  border-radius: 2vh;
+  
+}
+/* wall */
+.border-2 {
+  border: black solid 4px;
+  border-radius: 2vh;
+  
+}
+/* lose */
+.border-3 {
+  border: red solid 4px;
+  border-radius: 2vh;
+  
+}
+/* win */
+.border-4 {
+  border: green solid 4px;
+  border-radius: 2vh;
+  
 }

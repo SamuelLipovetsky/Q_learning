@@ -3,20 +3,25 @@ import React, { useState,useContext } from 'react';
 import "./drawConfig.css"
 import {ConfigContext}  from "../../main/main"
 function DrawRadioButtons() {
-    const [selectedOption, setSelectedOption] = useState('option1');
+   
     const  {isPlaying,setIsPlaying,drawData,setDrawData,stuff}  = useContext(ConfigContext);
     const handleOptionChange = (event) => {
-        setSelectedOption(event.target.value);
+    
         setDrawData(Number(event.target.value))
         
     };
 
-
+    const handleClick=()=>{
+        setDrawData(5)
+     
+    }
   
     return (
         <div className='container'>
-            <div style={{fontSize:"1em"}}>
-                Celulas
+            <div style={{fontSize:"0.8em"}}>
+                Clique na opção abaixo que deseje , depois, clique sobre o grid 
+                para alterar a celula clicada. A cor da borda do grid representa as celula
+                que serão alteradas quando clicadas.
             </div>
             <div className='radio'>
                 <div>
@@ -25,7 +30,7 @@ function DrawRadioButtons() {
                         style={{ cursor: "pointer"}}
                             type="radio"
                             value="0"
-                            checked={selectedOption === '0'}
+                            checked={drawData === 0}
                             onChange={handleOptionChange}
                         />
                         Caminho
@@ -37,7 +42,7 @@ function DrawRadioButtons() {
                         style={{ cursor: "pointer"}}
                             type="radio"
                             value="2"
-                            checked={selectedOption === '2'}
+                            checked={drawData === 2}
                             onChange={handleOptionChange}
                         />
                         Obstaculo
@@ -49,7 +54,7 @@ function DrawRadioButtons() {
                         style={{ cursor: "pointer"}}
                             type="radio"
                             value="3"
-                            checked={selectedOption === '3'}
+                            checked={drawData === 3}
                             onChange={handleOptionChange}
                         />
                         Punição
@@ -61,7 +66,7 @@ function DrawRadioButtons() {
                         style={{ cursor: "pointer"}}
                             type="radio"
                             value="4"
-                            checked={selectedOption === '4'}
+                            checked={drawData === 4}
                             onChange={handleOptionChange}
                         />
                         Recompensa
@@ -70,8 +75,8 @@ function DrawRadioButtons() {
 
 
             </div>
-            <div>
-                
+            <div onClick={()=> handleClick()} style={{border:"solid 1px"}}>
+                Clique aqui para parar de alterar as celulas
             </div>
         </div>
     );

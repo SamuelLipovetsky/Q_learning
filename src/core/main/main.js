@@ -26,8 +26,9 @@ function Main() {
   const [stepsGraphData, setStepsGraphData] = useState([])
   const [graphData, setGraphData] = useState([{ value: 0 }])
   const [qTable, setqTable] = useState(() => { return utils.initializeQTable(7) })
-  const [drawData, setDrawData] = useState(0)
-  const [intervalDuration, setIntervalDuration] = useState(50);
+  const [drawData, setDrawData] = useState(5)
+
+  const [intervalDuration, setIntervalDuration] = useState(100);
   const [intervalId, setIntervalId] = useState(null);
   const [isPlaying, setIsPlaying] = useState(true)
   const [isTraining, setIsTraining] = useState(false)
@@ -40,7 +41,7 @@ function Main() {
   const [epsilon, setEpsilon] = useState(0.90)
   const [loses, setLoses] = useState(0)
   const [wins, setWins] = useState(0)
-
+  const colors =["#333c4e","white","#0e0f16","#a70f16","#0e5c16"]
 
   const varConfigFunctionsAndStates = {
     learningRateState, setLearningate,
@@ -59,7 +60,6 @@ function Main() {
   for (let i = 0; i < matrixData.length; i++) {
     for (let j = 0; j < matrixData[i].length; j++) {
       if (matrixData[i][j] === 1) {
-        // return { row: i, column: j };
         agentPosition = [i, j]
         break
       }
@@ -67,6 +67,7 @@ function Main() {
   }
 
 
+  
   const qLearningState = (learningRate, discountFactor, defaultReward) => {
     const numStates = matrixData.length;
     const numActions = 4;
@@ -142,7 +143,7 @@ function Main() {
     );
     const average_max_q = totalSum / (qTable.length * qTable[0].length);
     setGraphData(prevGraphData => {
-      const shouldAddValue = Math.random() < 0.05; // Random check to determine whether to add the value or not
+      const shouldAddValue = Math.random() < 1; // Random check to determine whether to add the value or not
 
       if (shouldAddValue) {
         return [...prevGraphData, { "Média Q-values": average_max_q }];
@@ -253,7 +254,7 @@ function Main() {
 
     <div className="wrapper">
       <div className="child matrix-div">
-        <div className='matrix'>
+        <div className='matrix' style={{border:colors[drawData]+"solid 4px" ,borderRadius:"2vh" }}>
           <Matrix qTable={qTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} />
         </div>
         <div className='matrix-controls'>

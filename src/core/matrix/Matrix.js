@@ -14,9 +14,10 @@ class Matrix extends React.Component {
   handleClick = (rowIndex, colIndex) => {
     const newMatrix = [...this.props.initialData];
 
-    newMatrix[rowIndex][colIndex] = this.props.drawData // Update the specific number
-    this.props.updateMatrix(newMatrix);
-
+    if (this.props.drawData != 5) {
+      newMatrix[rowIndex][colIndex] = this.props.drawData // Update the specific number
+      this.props.updateMatrix(newMatrix);
+    }
   }
   componentDidUpdate(prevProps) {
 
@@ -25,21 +26,21 @@ class Matrix extends React.Component {
       this.setState({ data: this.props.initialData });
     }
   }
-  isCorner =(rowIndex,colIndex)=>{
-    if(colIndex==0 && rowIndex==0){
+  isCorner = (rowIndex, colIndex) => {
+    if (colIndex == 0 && rowIndex == 0) {
       return "corner-0"
     }
-    if (colIndex==0 && rowIndex==6){
+    if (colIndex == 0 && rowIndex == 6) {
       return "corner-1"
     }
-    if(colIndex==6 && rowIndex==0){
+    if (colIndex == 6 && rowIndex == 0) {
       return "corner-2"
     }
-    if(colIndex==6 && rowIndex==6){
+    if (colIndex == 6 && rowIndex == 6) {
       return "corner-3"
     }
 
-    
+
 
   }
   render() {
@@ -47,8 +48,9 @@ class Matrix extends React.Component {
       <div className="row" key={rowIndex}>
         {row.map((value, colIndex) => (
           <div
+           
             onClick={() => this.handleClick(rowIndex, colIndex)}
-            className={`matrix-cell color-${value} ${this.isCorner(rowIndex,colIndex)}`}
+            className={`matrix-cell color-${value}  ${this.isCorner(rowIndex, colIndex)}`}
             key={`${rowIndex}-${colIndex}`}
           >
             <ArrowDisplay numbers={this.props.qTable[rowIndex][colIndex]} type={this.props.initialData[rowIndex][colIndex]} ></ArrowDisplay>
@@ -57,10 +59,10 @@ class Matrix extends React.Component {
       </div>
     ));
 
-    return <div className="matrix-container">{rows}</div>;
-          
-            
-            
+    return <div className={`matrix-container border-${this.props.drawData}`}>{rows}</div>;
+
+
+
   }
 }
 
