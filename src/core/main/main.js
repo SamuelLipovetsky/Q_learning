@@ -2,15 +2,15 @@
 import Matrix from '../matrix/Matrix'
 import * as utils from "./aux-functions"
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
 import './main.css';
-import CellLegend from '../legend/legend';
+
 import MatrixControls from '../matrixControls/matrixControls';
-import MatrixConfigs from '../matrixConfigs/mainConfigs/matrixConfigs';
+import TabConfig from '../matrixConfigs/tabConfig/tabConfig';
 
 export const ConfigContext = createContext();
- 
-let stepsWin=0;
+
+let stepsWin = 0;
 function Main() {
   const [matrixData, setMatrixData] = useState(() => {
     return [
@@ -38,18 +38,21 @@ function Main() {
   const [positiveDefaultReward, setPositiveDefaultReward] = useState(3)
   const [negativeDefaultReward, setNegativeDefaultReward] = useState(-1)
   const [epsilon, setEpsilon] = useState(0.90)
-  const [loses,setLoses] = useState(0)
-  const [wins,setWins] = useState(0)
+  const [loses, setLoses] = useState(0)
+  const [wins, setWins] = useState(0)
 
 
-  const varConfigFunctionsAndStates ={
-    learningRateState,setLearningate,
-    discountFactorState,setDiscountFactor,
-    defaultRewardState,setDefaultRewardState,
-    positiveDefaultReward,setPositiveDefaultReward,
-    negativeDefaultReward,setNegativeDefaultReward,
-    epsilon,setEpsilon
+  const varConfigFunctionsAndStates = {
+    learningRateState, setLearningate,
+    discountFactorState, setDiscountFactor,
+    defaultRewardState, setDefaultRewardState,
+    positiveDefaultReward, setPositiveDefaultReward,
+    negativeDefaultReward, setNegativeDefaultReward,
+    epsilon, setEpsilon
 
+  }
+  const graphInfo = {
+    graphData, stepsGraphData,numberSteps,wins,loses
   }
 
   let agentPosition = [0, 0]
@@ -63,7 +66,7 @@ function Main() {
     }
   }
 
-  
+
   const qLearningState = (learningRate, discountFactor, defaultReward) => {
     const numStates = matrixData.length;
     const numActions = 4;
@@ -89,41 +92,41 @@ function Main() {
     newQTable[agentRow][agentCol][action] += learningRate * (reward + discountFactor * maxQValue - qValue);
     setqTable(newQTable);
     const [nextRow, nextCol] = nextState;
-  
+
     if (reward == positiveDefaultReward || reward == negativeDefaultReward) {
       const newMatrix = [...matrixData];
       newMatrix[agentRow][agentCol] = 0
       const newQTable = [...qTable];
       if (reward == negativeDefaultReward) {
 
-        setLoses(prevLoses=>{return prevLoses+1})
+        setLoses(prevLoses => { return prevLoses + 1 })
 
         newQTable[nextState[0]][nextState[1]] = [-1, -1, -1, -1]
       }
       if (reward == positiveDefaultReward) {
-      
-        console.log(stepsWin)
+
+
         let temp = stepsWin
         setStepsGraphData(prevStepsGraphData => {
-          
-          return [...prevStepsGraphData,{"Passos até a vitória": temp}];
-      
-        });
-      
-       stepsWin=0;
 
-        setWins(prevWins=>{return prevWins+1})
+          return [...prevStepsGraphData, { "Passos até a vitória": temp }];
+
+        });
+
+        stepsWin = 0;
+
+        setWins(prevWins => { return prevWins + 1 })
 
         newQTable[nextState[0]][nextState[1]] = [+1, +1, +1, +1]
       }
       setqTable(newQTable);
       updateMatrix(newMatrix)
-      
+
       agentPosition = [0, 0]
 
     }
     else {
-    
+
       agentPosition = nextState
       const newMatrix = [...matrixData];
       newMatrix[agentRow][agentCol] = 0
@@ -148,10 +151,10 @@ function Main() {
       }
     });
     setNumberSteps(prevSteps => prevSteps + 1);
-    stepsWin+=1;
-   
-    
-   
+    stepsWin += 1;
+
+
+
   }
 
   useEffect(() => {
@@ -159,7 +162,7 @@ function Main() {
       const interval = setInterval(() => {
         qLearningState(learningRateState, discountFactorState, defaultRewardState);
       }, intervalDuration);
-      
+
       setIntervalId(interval);
 
 
@@ -176,9 +179,9 @@ function Main() {
   async function runQlearning(n_times) {
     if (!isTraining) {
       setIsTraining(true)
-      let originalPlaying =isPlaying;
+      let originalPlaying = isPlaying;
       setIsPlaying(false)
-      
+
       let matrixCopy = [...matrixData]
       let qTableCopy = [...qTable]
       let averageQValues
@@ -186,28 +189,28 @@ function Main() {
       await new Promise((resolve, reject) => {
 
 
-        [stepsTilWIn,averageQValues] = utils.qLearningFaster(matrixCopy, qTableCopy, epsilon, learningRateState, discountFactorState, defaultRewardState,
+        [stepsTilWIn, averageQValues] = utils.qLearningFaster(matrixCopy, qTableCopy, epsilon, learningRateState, discountFactorState, defaultRewardState,
           n_times, positiveDefaultReward, negativeDefaultReward)
-         
-          setGraphData(prevGraphData => {
-            
-            return prevGraphData.concat(averageQValues);
-            
-        
+
+        setGraphData(prevGraphData => {
+
+          return prevGraphData.concat(averageQValues);
+
+
         });
 
         setStepsGraphData(prevStepsGraphData => {
-          
+
           return prevStepsGraphData.concat(stepsTilWIn);
-      
-      });
-   
-       
+
+        });
+
+
         setNumberSteps(prevSteps => prevSteps + n_times);
         resolve();
 
       });
-     
+
       updateMatrix(matrixCopy)
       setqTable(qTableCopy)
       setIsPlaying(originalPlaying)
@@ -221,7 +224,7 @@ function Main() {
     for (let i = 0; i < matrixData.length; i++) {
       for (let j = 0; j < matrixData[i].length; j++) {
         if (matrixData[i][j] === 1) {
-         
+
           agentPosition = [i, j]
           const newMatrix = [...matrixData];
           newMatrix[agentPosition[0]][agentPosition[1]] = 0
@@ -240,8 +243,6 @@ function Main() {
     setLoses(0)
     setWins(0)
     setNumberSteps(0)
-    // const [loses,setLoses] = useState(0)
-    // const [wins,setWins] = useState(0)
 
   }
   const handleSliderChange = (event) => {
@@ -251,61 +252,18 @@ function Main() {
   return (
 
     <div className="wrapper">
-
       <div className="child matrix-div">
-
-        {/* <div className='config'>
-          <ConfigContext.Provider value={{ isPlaying, setIsPlaying, drawData, setDrawData }}>
-            <MatrixConfigs></MatrixConfigs>
-          </ConfigContext.Provider>
-        </div> */}
         <div className='matrix'>
           <Matrix qTable={qTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} />
         </div>
-
-       
-        {/* <div className='filler'>
-        </div> */}
         <div className='matrix-controls'>
-          
           <MatrixControls isPlaying={isPlaying} resetTable={resetTable} runQlearning={runQlearning} updateIsPlaying={updateIsPlaying} ></MatrixControls>
         </div>
-
-
-
       </div>
-
-      <div className="child graph ">
-      
-        {/* <p> Passos:{numberSteps} </p> 
-        <p> Derrotas:{loses} </p>
-        <p> Vitórias:{wins} </p> */}
-                <ResponsiveContainer   width="100%">
-          <LineChart
-            data={graphData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="Média Q-values" stroke="#8884d8"  dot={false}  />
-          </LineChart>
-        </ResponsiveContainer>
-        <ResponsiveContainer  width="100%">
-          <LineChart
-            data={stepsGraphData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="Passos até a vitória" stroke="#8884d8"  dot={false}  />
-          </LineChart>
-        </ResponsiveContainer>
-
-        
+      <div className="child matrix-div">
+        <ConfigContext.Provider value={{ isPlaying, setIsPlaying, drawData, setDrawData, varConfigFunctionsAndStates, graphInfo }}>
+          <TabConfig></TabConfig>
+        </ConfigContext.Provider>
       </div>
     </div>
 

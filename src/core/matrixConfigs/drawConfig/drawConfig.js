@@ -4,7 +4,7 @@ import "./drawConfig.css"
 import {ConfigContext}  from "../../main/main"
 function DrawRadioButtons() {
     const [selectedOption, setSelectedOption] = useState('option1');
-    const  {isPlaying,setIsPlaying,drawData,setDrawData}  = useContext(ConfigContext);
+    const  {isPlaying,setIsPlaying,drawData,setDrawData,stuff}  = useContext(ConfigContext);
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
         setDrawData(Number(event.target.value))
