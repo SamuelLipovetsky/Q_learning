@@ -12,6 +12,7 @@
 
 /* path */
 .color-0 {
+   opacity: 0.6;
   background-color: #3e4a5e
 }
 /* player */
@@ -20,14 +21,17 @@
 }
 /* wall */
 .color-2 {
+   opacity: 0.6;
   background-color: black;
 }
 /* lose */
 .color-3 {
+   opacity: 0.6;
   background-color: red;
 }
 /* win */
 .color-4 {
+   opacity: 0.6;
   background-color: green;
 }
 .child-grid {
@@ -51,7 +55,7 @@
  
   flex:1;
   /* border-radius:10%; */
-  opacity: 0.6;
+ 
   box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.5);
   aspect-ratio: 1; 
   transition: all 0.05s ease;

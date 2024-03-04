@@ -187,10 +187,12 @@ function Main() {
       let qTableCopy = [...qTable]
       let averageQValues
       let stepsTilWIn
+      let winsF
+      let losesF
       await new Promise((resolve, reject) => {
 
 
-        [stepsTilWIn, averageQValues] = utils.qLearningFaster(matrixCopy, qTableCopy, epsilon, learningRateState, discountFactorState, defaultRewardState,
+        [stepsTilWIn, averageQValues,winsF,losesF] = utils.qLearningFaster(matrixCopy, qTableCopy, epsilon, learningRateState, discountFactorState, defaultRewardState,
           n_times, positiveDefaultReward, negativeDefaultReward)
 
         setGraphData(prevGraphData => {
@@ -208,6 +210,8 @@ function Main() {
 
 
         setNumberSteps(prevSteps => prevSteps + n_times);
+        setWins(prevWins => prevWins+winsF)
+        setLoses(prevLoses=>loses+losesF)
         resolve();
 
       });

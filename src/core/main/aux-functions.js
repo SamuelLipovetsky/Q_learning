@@ -103,6 +103,8 @@ export function qLearningFaster(matrixData, qTable, epsilon, learningRate, disco
     let qValues =[]
     let stepsTilWin=[]
     let steps=0
+    let wins=0;
+    let loses=0;
     for (let i = 0; i < iterations; i++) {
         if (Math.random() > epsilon) {
             availabeActions = getAvailableActions(matrixData, agentPosition)
@@ -124,9 +126,11 @@ export function qLearningFaster(matrixData, qTable, epsilon, learningRate, disco
         if (reward == 3 || reward == -3) {
 
             if (reward == -3) {
+                loses+=1
                 qTable[nextState[0]][nextState[1]] = [-1, -1, -1, -1]
             }
             if (reward == 3) {
+                wins+=1;
                 // stepsTilWin =[...stepsTilWin,steps]
                 stepsTilWin=[...stepsTilWin , { "Passos até a vitória": steps}];
                 steps=0;
@@ -164,5 +168,5 @@ export function qLearningFaster(matrixData, qTable, epsilon, learningRate, disco
     }
     // console.log(qValues)
     // qValues=limitDataPoints(qValues,100)
-    return [stepsTilWin,qValues]
+    return [stepsTilWin,qValues,wins,loses]
 }
