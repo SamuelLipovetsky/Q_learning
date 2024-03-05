@@ -34,7 +34,7 @@ function Main() {
   const [isTraining, setIsTraining] = useState(false)
   const [numberSteps, setNumberSteps] = useState(() => { return 0 })
   const [learningRateState, setLearningate] = useState(0.5)
-  const [discountFactorState, setDiscountFactor] = useState(0.9)
+  const [discountFactorState, setDiscountFactor] = useState(0.96)
   const [defaultRewardState, setDefaultRewardState] = useState(-0.1)
   const [positiveDefaultReward, setPositiveDefaultReward] = useState(3)
   const [negativeDefaultReward, setNegativeDefaultReward] = useState(-1)
@@ -259,7 +259,7 @@ function Main() {
     <div className="wrapper">
       <div className="child matrix-div">
         <div className='matrix' style={{border:colors[drawData]+"solid 4px" ,borderRadius:"2vh" }}>
-          <Matrix qTable={qTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} />
+          <Matrix qTable={qTable} setQTable={setqTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} />
         </div>
         <div className='matrix-controls'>
           <MatrixControls isPlaying={isPlaying} resetTable={resetTable} runQlearning={runQlearning} updateIsPlaying={updateIsPlaying} ></MatrixControls>

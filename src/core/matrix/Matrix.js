@@ -2,6 +2,7 @@ import React from 'react';
 import './Matrix.css';
 import ArrowDisplay from "./Arrow.js"
 import { initializeQTable } from '../main/aux-functions.js';
+import * as utils from "../main/aux-functions"
 class Matrix extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +17,36 @@ class Matrix extends React.Component {
 
     if (this.props.drawData != 5) {
       newMatrix[rowIndex][colIndex] = this.props.drawData // Update the specific number
+      // let available = utils.getAvailableActions(this.props.initialData,[rowIndex,colIndex])
+      if (this.props.drawData == 2) {
+        console.log("test")
+        const newQTable = [...this.props.qTable];
+        try {
+          newQTable[rowIndex][colIndex - 1] = [0, 0, 0, 0]
+        }
+        catch{
+          
+        }
+        try {
+          newQTable[rowIndex-1][colIndex ] = [0, 0, 0, 0]
+        }
+        catch{
+          
+        }
+        try {
+          newQTable[rowIndex][colIndex + 1] = [0, 0, 0, 0]
+        }
+        catch{
+          
+        }
+        try {
+          newQTable[rowIndex+1][colIndex ] = [0, 0, 0, 0]
+        }
+        catch{
+          
+        }
+        this.props.setQTable(newQTable)
+    }
       this.props.updateMatrix(newMatrix);
     }
   }
@@ -48,7 +79,7 @@ class Matrix extends React.Component {
       <div className="row" key={rowIndex}>
         {row.map((value, colIndex) => (
           <div
-           
+
             onClick={() => this.handleClick(rowIndex, colIndex)}
             className={`matrix-cell color-${value}  ${this.isCorner(rowIndex, colIndex)}`}
             key={`${rowIndex}-${colIndex}`}

@@ -64,7 +64,7 @@ export function getReward(grid, state, defaultReward,posRewad,negRewad) {
 
     if (cellValue === 4) {
         return posRewad;
-    } else if (cellValue === 3) {
+    } else if (cellValue === 3 || cellValue==2) {
         return negRewad;
     } else if (cellValue === 0) {
         return defaultReward;
