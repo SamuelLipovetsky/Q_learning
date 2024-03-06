@@ -106,7 +106,7 @@ export function qLearningFaster(matrixData, qTable, epsilon, learningRate, disco
     let wins=0;
     let loses=0;
     for (let i = 0; i < iterations; i++) {
-        if (Math.random() > epsilon) {
+        if (Math.random() < epsilon) {
             availabeActions = getAvailableActions(matrixData, agentPosition)
             randomIndex = Math.floor(Math.random() * availabeActions.length);
             action = availabeActions[randomIndex]
@@ -156,17 +156,51 @@ export function qLearningFaster(matrixData, qTable, epsilon, learningRate, disco
         const average_max_q = totalSum / (qTable.length * qTable[0].length);
         qValues=[...qValues , { "Média Q-values": average_max_q }]
         
-        // setGraphData(prevGraphData => [...prevGraphData, { value: average_max_q }]);
-
-        // const shouldAddValue = Math.random() < 0.05; // Random check to determine whether to add the value or not
-
-        // if (shouldAddValue) {
-        //     qValues=[...qValues , { "Média Q-values": average_max_q }];
-        // }
+     
         
         steps+=1;
     }
-    // console.log(qValues)
-    // qValues=limitDataPoints(qValues,100)
+  
     return [stepsTilWin,qValues,wins,loses]
 }
+export function initializeMatrix() {
+    const matrix = Array.from({ length: 7 }, () => Array(7).fill(0));
+  
+    // Randomly distribute values
+    const randomIndex = (max) => Math.floor(Math.random() * max);
+    
+    // Set one cell to 1
+    const [row1, col1] = [0,0];
+    matrix[row1][col1] = 1;
+  
+    // Set four cells to 3
+    for (let i = 0; i < 6; i++) {
+      let row, col;
+      do {
+        row = randomIndex(7);
+        col = randomIndex(7);
+      } while (matrix[row][col] !== 0);
+      matrix[row][col] = 3;
+    }
+  
+    // Set two cells to 2
+    for (let i = 0; i < 3; i++) {
+      let row, col;
+      do {
+        row = randomIndex(7);
+        col = randomIndex(7);
+      } while (matrix[row][col] !== 0);
+      matrix[row][col] = 2;
+    }
+  
+    // Set one cell to 4
+    let row, col;
+    do {
+      row = randomIndex(7);
+      col = randomIndex(7);
+    } while (matrix[row][col] !== 0);
+    matrix[row][col] = 4;
+  
+    return matrix;
+  }
+  

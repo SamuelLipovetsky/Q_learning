@@ -3,7 +3,7 @@
     justify-content: left;
     /* align-items: gri-start;  */
     /* max-width: 80%; */
-    grid-template-columns: 1fr 1fr 5fr ;
+    grid-template-columns: 1fr 1fr 1fr 4fr;
     /* grid-template-rows: 1fr 1fr; */
     padding-top: 2%;
     gap: 3px;
@@ -16,8 +16,9 @@
     display: flex;
     flex-direction: column;
     color: white;
-    cursor: pointer
-   
+    cursor: pointer;
+    justify-items: center;
+    align-items: center;
 }
 .text-tip{
     font-size: 0.9em;

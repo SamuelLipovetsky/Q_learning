@@ -8,9 +8,36 @@
    
 }
 .container{
-    display: flex;
-    flex-direction: column;
+    display:grid;
+    /* flex-direction: column; */
     height: 100%;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center; */
+    /* align-items: center; */
+    grid-template-rows: 1fr 5fr 1fr;
+    place-items: center;
+}
+
+.draw-config{
+    height: 80%;
+    width: 80%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    place-items: center;
+}
+
+.draw-cell{
+    
+    display: grid;
+    place-items: center;
+    width: 50%;
+    padding: 10%;
+    /* border: 1px solid; */
+    border-radius: 2vh;
+    opacity: 0.9;
+}
+
+.selected-true{
+    border: 4px solid;
+    opacity:1
 }

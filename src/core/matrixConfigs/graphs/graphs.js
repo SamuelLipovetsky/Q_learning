@@ -16,6 +16,7 @@ function Graphs() {
         }
       };
     const { isPlaying, setIsPlaying, drawData, setDrawData, varConfig, graphInfo } = useContext(ConfigContext);
+
     const { graphData, stepsGraphData, numberSteps, wins, loses } = graphInfo
     
     const [limitedGraphData,setLimitedGraphData]= useState([])

@@ -8,9 +8,36 @@ class Matrix extends React.Component {
     super(props);
     this.state = {
       data: props.initialData,
-      drawnData: props.drawData
+      drawnData: props.drawData,
+      fakeMatrix: 
+      [[5, 5,5, 5, 5, 5, 5],
+      [5, 5, 5, 5, 5, 5, 5],
+      [5, 5, 5, 5, 5, 5, 5],
+      [5, 5, 5, 5, 5, 5, 5],
+      [5, 5, 5, 5, 5, 5, 5],
+      [5, 5, 5, 5, 5, 5, 5],
+      [5, 5, 5, 5, 5, 5, 5],]
     };
   }
+
+  handleIn = (row, col) => {
+    // console.log("l")
+    this.setState(prevState => {
+      const temp = [...prevState.fakeMatrix];
+      temp[row][col] = this.props.drawData;
+      return { fakeMatrix: temp };
+    });
+  };
+  
+  handleOut = (row, col) => {
+    this.setState(prevState => {
+      // console.log("l")
+      const temp = [...prevState.fakeMatrix];
+      temp[row][col] = 5;
+      return { fakeMatrix: temp };
+    });
+  };
+
 
   handleClick = (rowIndex, colIndex) => {
     const newMatrix = [...this.props.initialData];
@@ -19,34 +46,34 @@ class Matrix extends React.Component {
       newMatrix[rowIndex][colIndex] = this.props.drawData // Update the specific number
       // let available = utils.getAvailableActions(this.props.initialData,[rowIndex,colIndex])
       if (this.props.drawData == 2) {
-        console.log("test")
+      
         const newQTable = [...this.props.qTable];
         try {
           newQTable[rowIndex][colIndex - 1] = [0, 0, 0, 0]
         }
-        catch{
-          
+        catch {
+
         }
         try {
-          newQTable[rowIndex-1][colIndex ] = [0, 0, 0, 0]
+          newQTable[rowIndex - 1][colIndex] = [0, 0, 0, 0]
         }
-        catch{
-          
+        catch {
+
         }
         try {
           newQTable[rowIndex][colIndex + 1] = [0, 0, 0, 0]
         }
-        catch{
-          
+        catch {
+
         }
         try {
-          newQTable[rowIndex+1][colIndex ] = [0, 0, 0, 0]
+          newQTable[rowIndex + 1][colIndex] = [0, 0, 0, 0]
         }
-        catch{
-          
+        catch {
+
         }
         this.props.setQTable(newQTable)
-    }
+      }
       this.props.updateMatrix(newMatrix);
     }
   }
@@ -71,8 +98,6 @@ class Matrix extends React.Component {
       return "corner-3"
     }
 
-
-
   }
   render() {
     const rows = this.state.data.map((row, rowIndex) => (
@@ -81,10 +106,13 @@ class Matrix extends React.Component {
           <div
 
             onClick={() => this.handleClick(rowIndex, colIndex)}
-            className={`matrix-cell color-${value}  ${this.isCorner(rowIndex, colIndex)}`}
+            onMouseEnter={()=>this.handleIn(rowIndex, colIndex)}
+            onMouseLeave={()=>this.handleOut(rowIndex, colIndex)}
+            className={`matrix-cell hovered-${this.state.fakeMatrix[rowIndex][colIndex]} color-${value}  ${this.isCorner(rowIndex, colIndex)}`}
             key={`${rowIndex}-${colIndex}`}
           >
-            <ArrowDisplay numbers={this.props.qTable[rowIndex][colIndex]} type={this.props.initialData[rowIndex][colIndex]} ></ArrowDisplay>
+            
+            <ArrowDisplay  numbers={this.props.qTable[rowIndex][colIndex]} type={this.props.initialData[rowIndex][colIndex] } ></ArrowDisplay>
           </div>
         ))}
       </div>

@@ -1,81 +1,74 @@
-import React, { useState,useContext } from 'react';
+import React, { useState, useContext } from 'react';
 
 import "./drawConfig.css"
-import {ConfigContext}  from "../../main/main"
+import { ConfigContext } from "../../main/main"
 function DrawRadioButtons() {
-   
-    const  {isPlaying,setIsPlaying,drawData,setDrawData,stuff}  = useContext(ConfigContext);
-    const handleOptionChange = (event) => {
-    
-        setDrawData(Number(event.target.value))
-        
+
+    const { isPlaying, setIsPlaying, drawData, setDrawData, stuff } = useContext(ConfigContext);
+    const [selected, setSelected] = useState([false, false, false, false])
+    const handleOptionChange = (drawData, selectedIndex) => {
+
+        setDrawData(Number(drawData))
+        let temp = [false, false, false, false]
+        temp[selectedIndex] = true
+        setSelected(temp)
+
     };
 
-    const handleClick=()=>{
+    const handleClick = () => {
         setDrawData(5)
-     
+
     }
-  
+    const [hovered, setHovered] = useState(false);
+
+    const handleMouseEnter = () => {
+        setHovered(true);
+    };
+
+    const handleMouseLeave = () => {
+        setHovered(false);
+    };
+
     return (
         <div className='container'>
-            <div style={{fontSize:"0.8em"}}>
-                Clique na opção abaixo que deseje , depois, clique sobre o grid 
-                para alterar a celula clicada. A cor da borda do grid representa as celula
-                que serão alteradas quando clicadas.
+            <div style={{ display:"grid",placeItems:"center",fontSize: "0.9em",width:"90"}}>
+                Clique na opção abaixo que deseje , depois, clique sobre o grid
+                para alterar a celula clicada. 
             </div>
-            <div className='radio'>
-                <div>
-                    <label style={{ cursor: "pointer"}}>
-                        <input
-                        style={{ cursor: "pointer"}}
-                            type="radio"
-                            value="0"
-                            checked={drawData === 0}
-                            onChange={handleOptionChange}
-                        />
-                        Caminho
-                    </label>
+            <div className='draw-config'>
+                <div className={`draw-cell selected-${selected[0]}`}
+                    style={{ background: "#333c4e",cursor: hovered ? 'pointer' : 'default' }}
+                    onClick={() => handleOptionChange(0, 0)}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}>
+                    Caminho
                 </div>
-                <div>
-                    <label style={{ cursor: "pointer"}}>
-                        <input
-                        style={{ cursor: "pointer"}}
-                            type="radio"
-                            value="2"
-                            checked={drawData === 2}
-                            onChange={handleOptionChange}
-                        />
-                        Obstaculo
-                    </label>
+                <div className={`draw-cell selected-${selected[1]}`}
+                    style={{ background: "#0e5c16",cursor: hovered ? 'pointer' : 'default' }}
+                    onClick={() => handleOptionChange(4, 1)}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}>
+                    Vitória
                 </div>
-                <div>
-                    <label style={{ cursor: "pointer"}}>
-                        <input
-                        style={{ cursor: "pointer"}}
-                            type="radio"
-                            value="3"
-                            checked={drawData === 3}
-                            onChange={handleOptionChange}
-                        />
-                        Punição
-                    </label>
+                <div className={`draw-cell selected-${selected[2]}`}
+                    style={{ background: "#a70f16",cursor: hovered ? 'pointer' : 'default' }}
+                    onClick={() => handleOptionChange(3, 2)}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}>
+                    Derrota
                 </div>
-                <div>
-                    <label style={{ cursor: "pointer"}}>
-                        <input
-                        style={{ cursor: "pointer"}}
-                            type="radio"
-                            value="4"
-                            checked={drawData === 4}
-                            onChange={handleOptionChange}
-                        />
-                        Recompensa
-                    </label>
+                <div className={`draw-cell selected-${selected[3]}`}
+                    style={{ background: "black",cursor: hovered ? 'pointer' : 'default' }}
+                    onClick={() => handleOptionChange(2, 3)}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}>
+                    Obstáculo
                 </div>
 
 
+
             </div>
-            <div onClick={()=> handleClick()} style={{border:"solid 1px"}}>
+            <div onClick={() => handleClick()} style={{ border: "solid 1px" }}>
                 Clique aqui para parar de alterar as celulas
             </div>
         </div>

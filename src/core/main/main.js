@@ -12,7 +12,8 @@ export const ConfigContext = createContext();
 
 let stepsWin = 0;
 function Main() {
-  const [matrixData, setMatrixData] = useState(() => {
+  const [matrixData, setMatrixData] = useState(()=>{
+    // utils.initializeMatrix()
     return [
       [1, 0, 2, 0, 0, 0, 3],
       [0, 0, 0, 0, 3, 0, 0],
@@ -22,7 +23,8 @@ function Main() {
       [0, 0, 0, 0, 0, 0, 0],
       [3, 0, 4, 0, 0, 0, 0],
     ]
-  });
+  }
+  );
   const [stepsGraphData, setStepsGraphData] = useState([])
   const [graphData, setGraphData] = useState([{ value: 0 }])
   const [qTable, setqTable] = useState(() => { return utils.initializeQTable(7) })
@@ -38,7 +40,7 @@ function Main() {
   const [defaultRewardState, setDefaultRewardState] = useState(-0.1)
   const [positiveDefaultReward, setPositiveDefaultReward] = useState(3)
   const [negativeDefaultReward, setNegativeDefaultReward] = useState(-1)
-  const [epsilon, setEpsilon] = useState(0.90)
+  const [epsilon, setEpsilon] = useState(0.10)
   const [loses, setLoses] = useState(0)
   const [wins, setWins] = useState(0)
   const colors =["#333c4e","white","#0e0f16","#a70f16","#0e5c16"]
@@ -75,7 +77,7 @@ function Main() {
     let action;
     let randomIndex;
     let availabeActions;
-    if (Math.random() > epsilon) {
+    if (Math.random() < epsilon) {
       availabeActions = utils.getAvailableActions(matrixData, agentPosition)
       randomIndex = Math.floor(Math.random() * availabeActions.length);
       action = availabeActions[randomIndex]
@@ -250,24 +252,28 @@ function Main() {
     setNumberSteps(0)
 
   }
-  const handleSliderChange = (event) => {
-    setIntervalDuration(parseInt(event.target.value, 10)); // Parse slider value to integer
-  };
+  
+  const randomizeMatrix =()=>{
+    let temp =utils.initializeMatrix()
+    setMatrixData(temp);
+  }
 
   return (
 
-    <div className="wrapper">
+    <div className="wrapper"  style={{ cursor: drawData!=5 ? 'crosshair' : 'default' }}>
       <div className="child matrix-div">
         <div className='matrix' style={{border:colors[drawData]+"solid 4px" ,borderRadius:"2vh" }}>
           <Matrix qTable={qTable} setQTable={setqTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} />
         </div>
         <div className='matrix-controls'>
-          <MatrixControls isPlaying={isPlaying} resetTable={resetTable} runQlearning={runQlearning} updateIsPlaying={updateIsPlaying} ></MatrixControls>
+          <MatrixControls randomizeMatrix={randomizeMatrix}isPlaying={isPlaying} resetTable={resetTable} runQlearning={runQlearning} updateIsPlaying={updateIsPlaying} ></MatrixControls>
         </div>
       </div>
       <div className="child matrix-div">
-        <ConfigContext.Provider value={{ isPlaying, setIsPlaying, drawData, setDrawData, varConfigFunctionsAndStates, graphInfo }}>
+        <ConfigContext.Provider value={{ isPlaying, setIsPlaying, drawData, setDrawData,varConfigFunctionsAndStates , graphInfo }}>
+          
           <TabConfig></TabConfig>
+          
         </ConfigContext.Provider>
       </div>
     </div>
