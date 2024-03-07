@@ -5,7 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #242838;
+  /* background-color: #242838; */
+  background: content-box radial-gradient(#242842,#242838);
   width: 100%;
   height: 100%;
   margin: 0 ;

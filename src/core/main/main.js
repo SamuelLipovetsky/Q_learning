@@ -32,7 +32,7 @@ function Main() {
 
   const [intervalDuration, setIntervalDuration] = useState(100);
   const [intervalId, setIntervalId] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(true)
+  const [isPlaying, setIsPlaying] = useState(false)
   const [isTraining, setIsTraining] = useState(false)
   const [numberSteps, setNumberSteps] = useState(() => { return 0 })
   const [learningRateState, setLearningate] = useState(0.5)

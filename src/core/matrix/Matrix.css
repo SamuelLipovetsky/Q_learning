@@ -2,12 +2,12 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(7, 1fr);
-  gap: 2px;
+  gap: 4px;
 }
 
 .row {
   display: flex;
-  gap: 2px;
+  gap: 4px;
 }
 
 /* path */
@@ -54,11 +54,11 @@
 .matrix-cell {
  
   flex:1;
-  /* border-radius:10%; */
+  /* border-radius:0.5vh; */
  
-  box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.5);
+  /* box-shadow: inset 0px 0px 0px 1p; */
   aspect-ratio: 1; 
-  transition: all 0.05s ease;
+  /* transition: all 0.1s linear; */
 }
 
 .corner-0{
@@ -72,35 +72,6 @@ border-top-left-radius: 2vh;
 }
 .corner-3{
   border-bottom-right-radius: 2vh;
-}
-
-.border-5{
-  border: #242839 solid 4px;
-  border-radius: 2vh;
-}
-/* path */
-.border-0 {
-  border: #3e4a5e solid 4px;
-  border-radius: 2vh;
-  
-}
-/* wall */
-.border-2 {
-  border: black solid 4px;
-  border-radius: 2vh;
-  
-}
-/* lose */
-.border-3 {
-  border: red solid 4px;
-  border-radius: 2vh;
-  
-}
-/* win */
-.border-4 {
-  border: green solid 4px;
-  border-radius: 2vh;
-  
 }
 
 .hovered-0{
@@ -122,3 +93,89 @@ border-top-left-radius: 2vh;
   opacity:0.9
   
 }
+
+
+
+.top-c {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: black;
+  animation: animateTop-c 1s linear infinite;
+}
+
+.bottom-c {
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0%;
+  background:black;
+  animation: animateBottom-c 1s linear infinite;
+}
+
+.right-c {
+  top: 0;
+  right: 0;
+  width: 0%;
+  height: 100%;
+  background: black;
+  animation: animateRight-c 1s linear infinite;
+  
+}
+
+.left-c {
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 100%;
+  background: black;
+  animation: animateLeft-c 1s linear infinite;
+}
+
+
+
+@keyframes animateTop-c {
+  0% {
+    height: 0%;
+   
+  }
+  100% {
+    height: 100%;
+    
+  }
+}
+
+@keyframes animateBottom-c {
+  0% {
+    height: 100%;
+   
+  }
+  100% {
+    height: 0%;
+    
+  }
+}
+
+
+@keyframes animateRight-c {
+  0% {
+    width: 0%;
+   
+  }
+  100% {
+    width: 100%;
+    
+  }
+}
+
+@keyframes animateLeft-c {
+  0% {
+    width: 100%;
+   
+  }
+  100% {
+    width: 0%;
+    
+  }
+} 
