@@ -12,16 +12,23 @@ export const ConfigContext = createContext();
 
 let stepsWin = 0;
 function Main() {
-  const [matrixData, setMatrixData] = useState(()=>{
+  const [matrixData, setMatrixData] = useState(() => {
     // utils.initializeMatrix()
     return [
-      [1, 0, 2, 0, 0, 0, 3],
-      [0, 0, 0, 0, 3, 0, 0],
-      [0, 3, 0, 0, 0, 0, 0],
-      [0, 0, 0, 3, 0, 0, 0],
-      [0, 2, 0, 0, 0, 0, 0],
+      [1, 0, 4, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0],
-      [3, 0, 4, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0 , 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 4, 0, 0, 0, 0],
+      // [0, 0, 0, 0, 0, 0, 0],
+      // [0, 0, 0, 0, 0, 0, 0],
+      // [0, 0, 0, 0, 0, 0, 0],
+      // [0, 0, 0, 0, 0, 0, 0],
+      // [0, 0, 0, 0, 0, 0, 0],
+      // [0, 0, 0, 0, 0, 0, 0],
+      // [0, 0, 0, 0, 0, 0, 0],
     ]
   }
   );
@@ -30,7 +37,7 @@ function Main() {
   const [qTable, setqTable] = useState(() => { return utils.initializeQTable(7) })
   const [drawData, setDrawData] = useState(5)
 
-  const [intervalDuration, setIntervalDuration] = useState(100);
+  const [intervalDuration, setIntervalDuration] = useState(1000);
   const [intervalId, setIntervalId] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false)
   const [isTraining, setIsTraining] = useState(false)
@@ -43,7 +50,11 @@ function Main() {
   const [epsilon, setEpsilon] = useState(0.10)
   const [loses, setLoses] = useState(0)
   const [wins, setWins] = useState(0)
-  const colors =["#333c4e","white","#0e0f16","#a70f16","#0e5c16"]
+  const colors = ["#333c4e", "white", "#0e0f16", "#a70f16", "#0e5c16"]
+
+  const [agentPosState,setAgentPosState] = useState(()=> {return [0,0]})
+  const [actionToTake,setActionToTake] =useState(()=>0)
+
 
   const varConfigFunctionsAndStates = {
     learningRateState, setLearningate,
@@ -55,7 +66,7 @@ function Main() {
 
   }
   const graphInfo = {
-    graphData, stepsGraphData,numberSteps,wins,loses
+    graphData, stepsGraphData, numberSteps, wins, loses
   }
 
   let agentPosition = [0, 0]
@@ -69,23 +80,35 @@ function Main() {
   }
 
 
-  
-  const qLearningState = (learningRate, discountFactor, defaultReward) => {
-    const numStates = matrixData.length;
-    const numActions = 4;
+
+  const qLearningState = (learningRate, discountFactor, defaultReward, isRandom,rand) => {
+
     // Choose an action based on epsilon-greedy strategy
+    for (let i = 0; i < matrixData.length; i++) {
+      for (let j = 0; j < matrixData[i].length; j++) {
+        if (matrixData[i][j] === 1) {
+          agentPosition = [i, j]
+          break
+        }
+      }
+    }
+    
+  
+  
     let action;
     let randomIndex;
     let availabeActions;
-    if (Math.random() < epsilon) {
+    if (isRandom) {
       availabeActions = utils.getAvailableActions(matrixData, agentPosition)
-      randomIndex = Math.floor(Math.random() * availabeActions.length);
+      randomIndex = Math.floor(rand * availabeActions.length);
       action = availabeActions[randomIndex]
     } else {
       action = utils.chooseOptimalAction(qTable, agentPosition, matrixData);
     }
 
+    setActionToTake(()=>{return action})
     const nextState = utils.getNextState(agentPosition, action);
+    // console.log(nextState,action,"console")
     const reward = utils.getReward(matrixData, nextState, defaultReward, positiveDefaultReward, negativeDefaultReward);
 
     const [agentRow, agentCol] = agentPosition;
@@ -123,18 +146,20 @@ function Main() {
         newQTable[nextState[0]][nextState[1]] = [+1, +1, +1, +1]
       }
       setqTable(newQTable);
-      updateMatrix(newMatrix)
+      // updateMatrix(newMatrix)
+      setMatrixData(newMatrix)
 
       agentPosition = [0, 0]
 
     }
     else {
-
+      
       agentPosition = nextState
       const newMatrix = [...matrixData];
       newMatrix[agentRow][agentCol] = 0
       newMatrix[nextRow][nextCol] = 1
-      updateMatrix(newMatrix)
+      // updateMatrix(newMatrix)
+      setMatrixData(newMatrix)
     }
     const maxValues = qTable.map(subArray =>
       subArray.map(row => Math.max(...row))
@@ -163,7 +188,26 @@ function Main() {
   useEffect(() => {
     if (isPlaying) {
       const interval = setInterval(() => {
-        qLearningState(learningRateState, discountFactorState, defaultRewardState);
+    
+        let rand = Math.random()
+        let isRandom = rand <epsilon
+      
+        
+      
+        qLearningState(learningRateState, discountFactorState, defaultRewardState,isRandom,rand);
+        let found = false;
+        for (let i = 0; i < matrixData.length; i++) {
+          for (let j = 0; j < matrixData[i].length; j++) {
+            if (matrixData[i][j] === 1) {
+              found=true;
+              setAgentPosState([i,j])
+              break
+            }
+          }
+        }
+        if(found==false){
+          setAgentPosState([0,0])
+        }
       }, intervalDuration);
 
       setIntervalId(interval);
@@ -194,7 +238,7 @@ function Main() {
       await new Promise((resolve, reject) => {
 
 
-        [stepsTilWIn, averageQValues,winsF,losesF] = utils.qLearningFaster(matrixCopy, qTableCopy, epsilon, learningRateState, discountFactorState, defaultRewardState,
+        [stepsTilWIn, averageQValues, winsF, losesF] = utils.qLearningFaster(matrixCopy, qTableCopy, epsilon, learningRateState, discountFactorState, defaultRewardState,
           n_times, positiveDefaultReward, negativeDefaultReward)
 
         setGraphData(prevGraphData => {
@@ -212,13 +256,14 @@ function Main() {
 
 
         setNumberSteps(prevSteps => prevSteps + n_times);
-        setWins(prevWins => prevWins+winsF)
-        setLoses(prevLoses=>loses+losesF)
+        setWins(prevWins => prevWins + winsF)
+        setLoses(prevLoses => loses + losesF)
         resolve();
 
       });
 
-      updateMatrix(matrixCopy)
+      // updateMatrix(matrixCopy)
+      setMatrixData(matrixCopy)
       setqTable(qTableCopy)
       setIsPlaying(originalPlaying)
       setIsTraining(false)
@@ -236,7 +281,8 @@ function Main() {
           const newMatrix = [...matrixData];
           newMatrix[agentPosition[0]][agentPosition[1]] = 0
           newMatrix[0][0] = 1
-          updateMatrix(newMatrix)
+          // updateMatrix(newMatrix)
+          setMatrixData(newMatrix)
 
           break
         }
@@ -252,28 +298,30 @@ function Main() {
     setNumberSteps(0)
 
   }
-  
-  const randomizeMatrix =()=>{
-    let temp =utils.initializeMatrix()
+
+  const randomizeMatrix = () => {
+    let temp = utils.initializeMatrix()
     setMatrixData(temp);
   }
 
   return (
 
-    <div className="wrapper"  style={{ cursor: drawData!=5 ? 'crosshair' : 'default' }}>
+    <div className="wrapper" style={{ cursor: drawData != 5 ? 'crosshair' : 'default' }}>
+    
       <div className="child matrix-div">
-        <div className='matrix' style={{border:colors[drawData]+"solid 4px" ,borderRadius:"2vh" }}>
-          <Matrix qTable={qTable} setQTable={setqTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} />
+        
+        <div className='matrix' style={{ border: colors[drawData] + "solid 4px", borderRadius: "2vh" }}>
+          <Matrix qTable={qTable} setQTable={setqTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} agentPosState={agentPosState} actionToTake={actionToTake} isPlaying={isPlaying} />
         </div>
         <div className='matrix-controls'>
-          <MatrixControls randomizeMatrix={randomizeMatrix}isPlaying={isPlaying} resetTable={resetTable} runQlearning={runQlearning} updateIsPlaying={updateIsPlaying} ></MatrixControls>
+          <MatrixControls randomizeMatrix={randomizeMatrix} isPlaying={isPlaying} resetTable={resetTable} runQlearning={runQlearning} updateIsPlaying={updateIsPlaying} ></MatrixControls>
         </div>
       </div>
       <div className="child matrix-div">
-        <ConfigContext.Provider value={{ isPlaying, setIsPlaying, drawData, setDrawData,varConfigFunctionsAndStates , graphInfo }}>
-          
+        <ConfigContext.Provider value={{ isPlaying, setIsPlaying, drawData, setDrawData, varConfigFunctionsAndStates, graphInfo }}>
+
           <TabConfig></TabConfig>
-          
+
         </ConfigContext.Provider>
       </div>
     </div>

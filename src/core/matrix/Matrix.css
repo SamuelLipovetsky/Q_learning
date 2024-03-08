@@ -17,7 +17,9 @@
 }
 /* player */
 .color-1 {
-  background-color:white;
+  background-color:#4f4a5a;
+  /* background-color: white; */
+  /* opacity: 0.6; */
 }
 /* wall */
 .color-2 {
@@ -95,47 +97,17 @@ border-top-left-radius: 2vh;
 }
 
 
-
-.top-c {
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 0%;
-  background: black;
-  animation: animateTop-c 1s linear infinite;
-}
-
-.bottom-c {
-  right: 0;
+/* mov 0 */
+.grow-up {
   bottom: 0;
   width: 100%;
-  height: 0%;
-  background:black;
-  animation: animateBottom-c 1s linear infinite;
+  height:0%;
+  background: white;
+  animation: animateGrow-Up 1s linear 1;
+
 }
 
-.right-c {
-  top: 0;
-  right: 0;
-  width: 0%;
-  height: 100%;
-  background: black;
-  animation: animateRight-c 1s linear infinite;
-  
-}
-
-.left-c {
-  left: 0;
-  bottom: 0;
-  width: 0%;
-  height: 100%;
-  background: black;
-  animation: animateLeft-c 1s linear infinite;
-}
-
-
-
-@keyframes animateTop-c {
+@keyframes animateGrow-Up {
   0% {
     height: 0%;
    
@@ -145,8 +117,15 @@ border-top-left-radius: 2vh;
     
   }
 }
+.shrink-up {
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  animation: animateShrink-Up 1s linear 1;
+}
 
-@keyframes animateBottom-c {
+@keyframes animateShrink-Up {
   0% {
     height: 100%;
    
@@ -156,9 +135,20 @@ border-top-left-radius: 2vh;
     
   }
 }
+/* mov 0 */
 
+/* mov 1 */ 
+.grow-right {
+ 
+  left: 0;
+  width: 0%;
+  height:100%;
+  background: white;
+  animation: animateGrow-Right 1s linear 1;
 
-@keyframes animateRight-c {
+}
+
+@keyframes animateGrow-Right {
   0% {
     width: 0%;
    
@@ -168,8 +158,15 @@ border-top-left-radius: 2vh;
     
   }
 }
+.shrink-right {
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  animation: animateShrink-Right 1s linear 1;
+}
 
-@keyframes animateLeft-c {
+@keyframes animateShrink-Right {
   0% {
     width: 100%;
    
@@ -178,4 +175,94 @@ border-top-left-radius: 2vh;
     width: 0%;
     
   }
-} 
+}
+
+/* mov 1 */ 
+
+/* mov 2 */
+.grow-down {
+  top: 0;
+  width: 100%;
+  height:0%;
+  background: white;
+  animation: animateGrow-down 1s linear 1;
+
+}
+
+@keyframes animateGrow-down {
+  0% {
+    height: 0%;
+   
+  }
+  100% {
+    height: 100%;
+    
+  }
+}
+.shrink-down {
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  animation: animateShrink-down 1s linear 1;
+}
+
+@keyframes animateShrink-down {
+  0% {
+    height: 100%;
+   
+  }
+  100% {
+    height: 0%;
+    
+  }
+}
+/* mov 2 */
+
+/* mov 1 */ 
+.grow-left {
+ 
+  right: 0;
+  width: 0%;
+  height:100%;
+  background: white;
+  animation: animateGrow-left 1s linear 1;
+
+}
+
+@keyframes animateGrow-left {
+  0% {
+    width: 0%;
+   
+  }
+  100% {
+    width: 100%;
+    
+  }
+}
+.shrink-left {
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  animation: animateShrink-left 1s linear 1;
+}
+
+@keyframes animateShrink-left {
+  0% {
+    width: 100%;
+   
+  }
+  100% {
+    width: 0%;
+    
+  }
+}
+
+/* mov 3 */ 
+
+.stoped {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
