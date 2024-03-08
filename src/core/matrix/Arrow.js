@@ -4,7 +4,7 @@ function ArrowDisplay({ numbers, type }) {
     let arrow;
     // console.log(type)
     
-    if (type != 0) {
+    if (type != 0 && type !=1) {
         arrow=""
     }
     else {

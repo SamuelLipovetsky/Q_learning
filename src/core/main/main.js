@@ -15,20 +15,14 @@ function Main() {
   const [matrixData, setMatrixData] = useState(() => {
     // utils.initializeMatrix()
     return [
-      [1, 0, 4, 0, 0, 0, 0],
+      [1, 0, 3, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 3, 0],
+      [0, 0, 0, 3, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0],
+      [0, 0 , 0, 0, 3, 0, 0],
       [0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0],
-      [0, 0 , 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 4, 0, 0, 0, 0],
-      // [0, 0, 0, 0, 0, 0, 0],
-      // [0, 0, 0, 0, 0, 0, 0],
-      // [0, 0, 0, 0, 0, 0, 0],
-      // [0, 0, 0, 0, 0, 0, 0],
-      // [0, 0, 0, 0, 0, 0, 0],
-      // [0, 0, 0, 0, 0, 0, 0],
-      // [0, 0, 0, 0, 0, 0, 0],
+      [3, 0, 4, 0, 0, 0, 0],
+
     ]
   }
   );
@@ -37,7 +31,7 @@ function Main() {
   const [qTable, setqTable] = useState(() => { return utils.initializeQTable(7) })
   const [drawData, setDrawData] = useState(5)
 
-  const [intervalDuration, setIntervalDuration] = useState(1000);
+  const [intervalDuration, setIntervalDuration] = useState(100);
   const [intervalId, setIntervalId] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false)
   const [isTraining, setIsTraining] = useState(false)
@@ -54,6 +48,10 @@ function Main() {
 
   const [agentPosState,setAgentPosState] = useState(()=> {return [0,0]})
   const [actionToTake,setActionToTake] =useState(()=>0)
+
+  const [winPos,setWinPos] = useState([0,0])
+  const [lossPos,setLossPos] = useState([0,0])
+  
 
 
   const varConfigFunctionsAndStates = {
@@ -125,11 +123,15 @@ function Main() {
       const newQTable = [...qTable];
       if (reward == negativeDefaultReward) {
 
+        setLossPos([nextRow,nextCol])
+
         setLoses(prevLoses => { return prevLoses + 1 })
 
         newQTable[nextState[0]][nextState[1]] = [-1, -1, -1, -1]
       }
       if (reward == positiveDefaultReward) {
+
+        setWinPos([nextRow,nextCol])
 
 
         let temp = stepsWin
@@ -146,19 +148,20 @@ function Main() {
         newQTable[nextState[0]][nextState[1]] = [+1, +1, +1, +1]
       }
       setqTable(newQTable);
-      // updateMatrix(newMatrix)
+      
       setMatrixData(newMatrix)
 
       agentPosition = [0, 0]
 
     }
     else {
-      
+      setLossPos([0,0])
+      setWinPos([0,0])
       agentPosition = nextState
       const newMatrix = [...matrixData];
       newMatrix[agentRow][agentCol] = 0
       newMatrix[nextRow][nextCol] = 1
-      // updateMatrix(newMatrix)
+      
       setMatrixData(newMatrix)
     }
     const maxValues = qTable.map(subArray =>
@@ -311,7 +314,9 @@ function Main() {
       <div className="child matrix-div">
         
         <div className='matrix' style={{ border: colors[drawData] + "solid 4px", borderRadius: "2vh" }}>
-          <Matrix qTable={qTable} setQTable={setqTable} initialData={matrixData} drawData={drawData} updateMatrix={updateMatrix} agentPosState={agentPosState} actionToTake={actionToTake} isPlaying={isPlaying} />
+          <Matrix qTable={qTable} setQTable={setqTable} initialData={matrixData} drawData={drawData} 
+          updateMatrix={updateMatrix} agentPosState={agentPosState} actionToTake={actionToTake} 
+          isPlaying={isPlaying} lossPos={lossPos} winPos={winPos} />
         </div>
         <div className='matrix-controls'>
           <MatrixControls randomizeMatrix={randomizeMatrix} isPlaying={isPlaying} resetTable={resetTable} runQlearning={runQlearning} updateIsPlaying={updateIsPlaying} ></MatrixControls>

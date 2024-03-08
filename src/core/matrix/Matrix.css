@@ -17,7 +17,9 @@
 }
 /* player */
 .color-1 {
-  background-color:#4f4a5a;
+  /* background-color:#4f4a5a; */
+  background-color: #3e4a5e;
+  opacity: 0.6;
   /* background-color: white; */
   /* opacity: 0.6; */
 }
@@ -60,7 +62,7 @@
  
   /* box-shadow: inset 0px 0px 0px 1p; */
   aspect-ratio: 1; 
-  /* transition: all 0.1s linear; */
+  /* transition: all 0.0.1s linear; */
 }
 
 .corner-0{
@@ -103,7 +105,7 @@ border-top-left-radius: 2vh;
   width: 100%;
   height:0%;
   background: white;
-  animation: animateGrow-Up 1s linear 1;
+  animation: animateGrow-Up 0.1s linear 1;
 
 }
 
@@ -122,7 +124,7 @@ border-top-left-radius: 2vh;
   width: 100%;
   height: 100%;
   background: white;
-  animation: animateShrink-Up 1s linear 1;
+  animation: animateShrink-Up 0.1s linear 1;
 }
 
 @keyframes animateShrink-Up {
@@ -144,7 +146,7 @@ border-top-left-radius: 2vh;
   width: 0%;
   height:100%;
   background: white;
-  animation: animateGrow-Right 1s linear 1;
+  animation: animateGrow-Right 0.1s linear 1;
 
 }
 
@@ -163,7 +165,7 @@ border-top-left-radius: 2vh;
   width: 100%;
   height: 100%;
   background: white;
-  animation: animateShrink-Right 1s linear 1;
+  animation: animateShrink-Right 0.1s linear 1;
 }
 
 @keyframes animateShrink-Right {
@@ -185,7 +187,7 @@ border-top-left-radius: 2vh;
   width: 100%;
   height:0%;
   background: white;
-  animation: animateGrow-down 1s linear 1;
+  animation: animateGrow-down 0.1s linear 1;
 
 }
 
@@ -204,7 +206,7 @@ border-top-left-radius: 2vh;
   width: 100%;
   height: 100%;
   background: white;
-  animation: animateShrink-down 1s linear 1;
+  animation: animateShrink-down 0.1s linear 1;
 }
 
 @keyframes animateShrink-down {
@@ -226,7 +228,7 @@ border-top-left-radius: 2vh;
   width: 0%;
   height:100%;
   background: white;
-  animation: animateGrow-left 1s linear 1;
+  animation: animateGrow-left 0.1s linear 1;
 
 }
 
@@ -245,7 +247,7 @@ border-top-left-radius: 2vh;
   width: 100%;
   height: 100%;
   background: white;
-  animation: animateShrink-left 1s linear 1;
+  animation: animateShrink-left 0.1s linear 1;
 }
 
 @keyframes animateShrink-left {
@@ -266,3 +268,39 @@ border-top-left-radius: 2vh;
   height: 100%;
   background-color: white;
 }
+
+/* .hid{
+ 
+  visibility: hidden;
+    opacity: 0;
+  transition: all 2s linear;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  
+  
+}
+.win-animation{
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  
+  visibility: visible;
+    opacity: 1;
+  
+
+}
+
+.loss-animation{
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  
+  visibility: visible;
+    opacity: 1;
+  
+
+} */

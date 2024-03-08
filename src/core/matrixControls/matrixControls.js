@@ -46,7 +46,7 @@ function MatrixControls(props) {
 
             <div className="div-control" onClick={handleResetTable} >
 
-                <div  >
+                <div className='rotate'>
                     <MdOutlineRestartAlt size={35} />
                 </div>
                 <div className='text-tip'>
