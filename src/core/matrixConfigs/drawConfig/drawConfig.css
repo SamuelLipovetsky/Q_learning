@@ -41,11 +41,11 @@
 .selected-true{
     /* border: 2px solid; */
     box-shadow:inset 0px 0px 0px 3px white;
-    opacity:1
+    opacity:1;
 }
 
-.selected-none{
-    opacity: 0.8;
+.selected-null{
+    opacity: 0.9;
 }
 
 .selected-false{

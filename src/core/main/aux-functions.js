@@ -123,13 +123,13 @@ export function qLearningFaster(matrixData, qTable, epsilon, learningRate, disco
         qTable[agentRow][agentCol][action] += learningRate * (reward + discountFactor * maxQValue - qValue);
         const [nextRow, nextCol] = nextState;
 
-        if (reward == 3 || reward == -3) {
+        if (reward == posRewad || reward == -negRewad) {
 
-            if (reward == -3) {
+            if (reward == -negRewad) {
                 loses+=1
                 qTable[nextState[0]][nextState[1]] = [-1, -1, -1, -1]
             }
-            if (reward == 3) {
+            if (reward == posRewad) {
                 wins+=1;
                 // stepsTilWin =[...stepsTilWin,steps]
                 stepsTilWin=[...stepsTilWin , { "Passos até a vitória": steps}];
@@ -137,9 +137,7 @@ export function qLearningFaster(matrixData, qTable, epsilon, learningRate, disco
                 qTable[nextState[0]][nextState[1]] = [+1, +1, +1, +1]
             }
 
-            if (reward == 1) {
-
-            }
+          
             
             agentPosition = [0, 0]
 

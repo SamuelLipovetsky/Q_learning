@@ -106,7 +106,7 @@ function Main() {
 
     setActionToTake(()=>{return action})
     const nextState = utils.getNextState(agentPosition, action);
-    // console.log(nextState,action,"console")
+  
     const reward = utils.getReward(matrixData, nextState, defaultReward, positiveDefaultReward, negativeDefaultReward);
 
     const [agentRow, agentCol] = agentPosition;
@@ -231,7 +231,8 @@ function Main() {
       setIsTraining(true)
       let originalPlaying = isPlaying;
       setIsPlaying(false)
-
+      
+      // console.log(epsilon)
       let matrixCopy = [...matrixData]
       let qTableCopy = [...qTable]
       let averageQValues
@@ -241,20 +242,16 @@ function Main() {
       await new Promise((resolve, reject) => {
 
 
+        // console.log( 123)
         [stepsTilWIn, averageQValues, winsF, losesF] = utils.qLearningFaster(matrixCopy, qTableCopy, epsilon, learningRateState, discountFactorState, defaultRewardState,
           n_times, positiveDefaultReward, negativeDefaultReward)
 
         setGraphData(prevGraphData => {
-
           return prevGraphData.concat(averageQValues);
-
-
         });
 
         setStepsGraphData(prevStepsGraphData => {
-
           return prevStepsGraphData.concat(stepsTilWIn);
-
         });
 
 

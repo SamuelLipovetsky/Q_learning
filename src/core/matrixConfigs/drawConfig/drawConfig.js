@@ -42,7 +42,7 @@ function DrawButtons() {
 
     return (
         <div className='container'>
-            <div style={{ display: "grid", placeItems: "center", fontSize: "1em", width: "90%", margin: "auto" }}>
+            <div style={{ display: "grid", placeItems: "center", fontSize: "1em", width: "90%", margin: "auto",textAlign:"center",paddingTop:"5%" }}>
                 Clique na opção abaixo que deseje , depois, clique sobre o grid
                 para alterar a celula clicada.
             </div>

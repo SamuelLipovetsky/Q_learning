@@ -27,7 +27,7 @@ class Matrix extends React.Component {
   }
 
   handleIn = (row, col) => {
-    // console.log("l")
+  
     this.setState(prevState => {
       const temp = [...prevState.hoverMatrix];
       temp[row][col] = this.props.drawData;
@@ -37,7 +37,7 @@ class Matrix extends React.Component {
 
   handleOut = (row, col) => {
     this.setState(prevState => {
-      // console.log("l")
+   
       const temp = [...prevState.hoverMatrix];
       temp[row][col] = 5;
       return { hoverMatrix: temp };
@@ -45,8 +45,7 @@ class Matrix extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-   
-    console.log(this.props.winPos)
+
     if (prevProps.agentPosState !== this.props.agentPosState) {
       this.setState({ prev: prevProps.agentPosState })
       this.setState({ now: this.props.agentPosState })
@@ -180,10 +179,10 @@ class Matrix extends React.Component {
             className={`matrix-cell hovered-${this.state.hoverMatrix[rowIndex][colIndex]} color-${value}  `}
             key={`${rowIndex}-${colIndex}`}
           >
-            <span class={`${this.displayAnimation(rowIndex, colIndex)}`}></span>
+            <span className={`${this.displayAnimation(rowIndex, colIndex)}`}></span>
 
-            {/* <span class={`${this.displayWin(rowIndex, colIndex)}`}>Derrota</span> */}
-            {/* <span class={`${this.displayLoss(rowIndex, colIndex)}`}>vitória</span> */}
+            <span className={`${this.displayWin(rowIndex, colIndex)}`}>Derrota</span>
+            <span className={`${this.displayLoss(rowIndex, colIndex)}`}>vitória</span>
 
             <ArrowDisplay numbers={this.props.qTable[rowIndex][colIndex]} type={this.props.initialData[rowIndex][colIndex]} ></ArrowDisplay>
           </div>

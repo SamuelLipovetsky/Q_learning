@@ -6,6 +6,11 @@ import Graphs from '../graphs/graphs';
 import { ConfigContext } from "../../main/main"
 import VarConfig from '../varConfig/varConfig';
 import DrawButtons from '../drawConfig/drawConfig';
+import { GoGraph } from "react-icons/go";
+import { FaTableCellsLarge } from "react-icons/fa6";
+import { IoMdHelpCircleOutline } from "react-icons/io";
+import { TbVariable } from "react-icons/tb";
+import { HiOutlineTableCells } from "react-icons/hi2";
 function TabConfig(props) {
 
 
@@ -22,35 +27,40 @@ function TabConfig(props) {
     return (
 
         <div className='tabs-wrapper'>
-            <div className='tabs-menu'>
+            <div className='tabs-menu' style={{cursor:"pointer"}}>
                 <div className={`tab show-tab-${tabsToShow[0]}`} style={{
-                    borderRight: "solid 1px", borderTop: "solid 1px",
-                    borderLeft: "solid 1px", borderTopLeftRadius: "2vh"
+                    borderRight: "solid 1px white", borderTop: "solid 1px white",
+                    borderLeft: "solid 1px white", borderTopLeftRadius: "2vh",
+                    
                 }}
                     onClick={() => handleClick([true, false, false, false], true)}>
-                    Gráficos</div>
+                     <GoGraph />  Gráficos</div>
 
                 <div className={`tab show-tab-${tabsToShow[1]}`} style={{
-                    borderRight: "solid 1px",
-                    borderTop: "solid 1px"
+                    borderRight: "solid 1px white",
+                    borderTop: "solid 1px white",
+                    
                 }}
                     onClick={() => handleClick([false, true, false, false], false)}>
-                    Células</div>
+                   <HiOutlineTableCells /> Células </div>
 
                 <div className={`tab show-tab-${tabsToShow[2]}`} style={{
-                    borderRight: "solid 1px",
-                    borderTop: "solid 1px"
+                    borderRight: "solid 1px white",
+                    borderTop: "solid 1px white",
+                    
                 }}
-                    onClick={() => handleClick([false, false, true, false], true)}>Ajuda</div>
+                    onClick={() => handleClick([false, false, true, false], true)}>
+                        <IoMdHelpCircleOutline />Ajuda</div>
 
                 <div className={`tab show-tab-${tabsToShow[3]}`} style={{
-                    borderRight: 'solid 1px',
-                    borderTop: 'solid 1px', borderTopRightRadius: "2vh"
+                    borderRight: 'solid 1px white',
+                    borderTop: 'solid 1px white',
+                     borderTopRightRadius: "2vh"
                 }}
                     onClick={() => handleClick([false, false, false, true], true)}>
-                    Variáveis</div>
+                     <TbVariable /> Variáveis</div>
             </div>
-            <div className='tabs-content'>
+            <div className='tabs-content' >
 
                 <div className={`content show-content-${tabsToShow[0]} `} >
 
@@ -65,19 +75,19 @@ function TabConfig(props) {
                     <div style={{ width: "80%", display: 'grid', gridTemplateRows: "1fr 1fr", gridTemplateColumns: "1fr 1fr" }}>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "right", margin: "0.5em" }}>
                             <div style={{ display: 'grid', placeItems: "center", marginRight: "0.2em" }}>Agente  </div>
-                            <div style={{ backgroundColor: "white", width: "1.5em", height: "1.5em" }}> </div>
+                            <div style={{ backgroundColor: "white", width: "1.5em", height: "1.5em",opacity:"0.8" }}> </div>
                         </div>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "right", margin: "0.5em" }}>
                             <div style={{ display: 'grid', placeItems: "center", marginRight: "0.2em" }}>Vitória  </div>
-                            <div style={{ backgroundColor: "#0e5c16", width: "1.5em", height: "1.5em" }}> </div>
+                            <div style={{ backgroundColor: "#0e5c16", width: "1.5em", height: "1.5em",opacity:"0.8" }}> </div>
                         </div>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "right", margin: "0.5em" }}>
                             <div style={{ display: 'grid', placeItems: "center", marginRight: "0.2em" }}>Derrota  </div>
-                            <div style={{ backgroundColor: "#a70f16", width: "1.5em", height: "1.5em" }}> </div>
+                            <div style={{ backgroundColor: "#a70f16", width: "1.5em", height: "1.5em",opacity:"0.8" }}> </div>
                         </div>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "right", margin: "0.5em" }}>
                             <div style={{ display: 'grid', placeItems: "center", marginRight: "0.2em" }}> Obstáculo  </div>
-                            <div style={{ backgroundColor: "black", width: "1.5em", height: "1.5em" }}> </div>
+                            <div style={{ backgroundColor: "black", width: "1.5em", height: "1.5em",opacity:"0.8" }}> </div>
                         </div>
                     </div>
                     <div style={{width:"90%",margin:"auto"}}>

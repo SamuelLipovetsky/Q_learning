@@ -14,7 +14,7 @@
 }
 
 .tabs-content {
-    border: solid 1px;
+    border: solid 1px white;
     border-top: none;
     /* border-radius: 2vh; */
     border-bottom-right-radius: 2vh;
@@ -27,7 +27,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
   
-    border-bottom: solid 1px;
+    /* border-bottom: solid 1px none; */
 
 }
 
@@ -51,8 +51,13 @@
 
 }
 
+.show-tab-false{
+    border-bottom: solid  1px white;
+}
 .show-tab-true {
-    background-color:#242d38;
+    /* background-color:#242d38; */
+    color: orange;
+    
 }
 
 .content {
