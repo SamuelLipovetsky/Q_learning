@@ -42,7 +42,7 @@ function DrawButtons() {
 
     return (
         <div className='container'>
-            <div style={{ display: "grid", placeItems: "center", fontSize: "1em", width: "90%", margin: "auto",textAlign:"center",paddingTop:"5%" }}>
+            <div style={{ display: "grid", placeItems: "center", fontSize: "0.9em", width: "90%", margin: "auto",textAlign:"center",paddingTop:"5%" }}>
                 Clique na opção abaixo que deseje , depois, clique sobre o grid
                 para alterar a celula clicada.
             </div>
@@ -51,7 +51,7 @@ function DrawButtons() {
                     style={{
                         background: "#333c4e", cursor: 'pointer',
                         position: "relative",
-                        borderRight: "4px solid white"
+                        borderRight: "2px solid white"
                     }}
                     onClick={() => handleOptionChange(0, 0)}
                     onMouseEnter={()=>handleMouseEnter(0)}
@@ -68,7 +68,7 @@ function DrawButtons() {
                     style={{
                         background: "#0e5c16", cursor: 'pointer',
                         position: "relative",
-                        borderRight: "4px solid white"
+                        borderRight: "2px solid white"
                     }}
                     onClick={() => handleOptionChange(4, 1)}
                     onMouseEnter={()=>handleMouseEnter(1)}
@@ -83,7 +83,7 @@ function DrawButtons() {
                     style={{
                         background: "#a70f16", cursor: 'pointer',
                         position: "relative",
-                        borderRight: "4px solid white"
+                        borderRight: "2px solid white"
                     }}
                     onClick={() => handleOptionChange(3, 2)}
                     onMouseEnter={()=>handleMouseEnter(2)}
@@ -99,7 +99,7 @@ function DrawButtons() {
                     style={{
                         background: "black", cursor: 'pointer',
                         position: "relative",
-                        borderRight: "4px solid white"
+                        borderRight: "2px solid white"
                     }}
                     onClick={() => handleOptionChange(2, 3)}
                     onMouseEnter={()=>handleMouseEnter(3)}

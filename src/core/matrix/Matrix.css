@@ -2,12 +2,20 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(7, 1fr);
-  gap: 4px;
+
+  margin: 0;  
+  padding: 0;
+  gap:1px;
+
 }
 
 .row {
   display: flex;
-  gap: 4px;
+  /* padding: 1px; */
+  margin: 0px;
+  gap:1px;
+
+ 
 }
 
 /* path */
@@ -47,8 +55,7 @@
   display: flex;
   flex-direction: column;
   box-sizing: content-box;
-  transition: all 0.2s ease;
-  
+  transition: all 0.1s linear  
 }
 
 .matrix-row {
@@ -56,7 +63,10 @@
 }
 
 .matrix-cell {
- 
+  /* padding-left: 1px; */
+  padding: 0;
+  margin: 0;
+  /* padding: 4px; */
   flex:1;
   /* border-radius:0.5vh; */
  

@@ -39,9 +39,6 @@ function MatrixControls(props) {
         animationTimeoutRef.display = setTimeout(() => {
             setDisplaySteps(0)
         },1500);
-
-
-
        
     };
 

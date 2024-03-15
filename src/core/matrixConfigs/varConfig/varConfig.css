@@ -1,0 +1,46 @@
+.label-var{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+.label-tip{
+    display: flex;
+    justify-content: flex-start;
+  align-items: center;
+  text-align: left;
+    font-size: 0.90em;
+    margin-top: 1%;
+}
+.sticky-div{
+    position: sticky;
+    bottom: 0px; /* Adjust as needed */
+    margin-left: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    z-index: 1;
+    /* background-color: black; */
+    opacity: 1;
+}
+.container-d{
+    display: flex;
+    flex-direction: column;
+    /* height: 90%; */
+    /* padding-top: 5%; */
+}
+.form{
+    display: grid;
+    gap: 3%;
+    width: 100%; 
+}
+.input-d{
+    
+    background-color: rgba(0, 0,0, 0.2);
+    border-color: #1976d2;
+   
+    border: none;
+    border-bottom: 2px solid #1976d2;
+    height: 100%;
+    color: white;
+
+}

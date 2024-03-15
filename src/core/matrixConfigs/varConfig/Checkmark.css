@@ -1,0 +1,33 @@
+
+
+  .checkmark {
+ 
+    font-size: 1em; /* Adjust font size as needed */
+    color: transparent; /* Start as transparent */
+    animation: checkmarkAnimation 2s infinite;
+    position: relative;
+    left: 0px;
+    top: 50%;
+    overflow: hidden;
+  }
+  .disabled{
+    display: none;
+  }
+  
+  @keyframes checkmarkAnimation {
+    0% {
+      color: transparent;
+     
+    
+      left: 0px;
+    }
+    30% {
+      color: green;
+    }
+    100% {
+      color:green; 
+      left: 20px;
+      
+    }
+  }
+  

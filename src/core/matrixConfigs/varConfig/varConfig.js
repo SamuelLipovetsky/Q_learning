@@ -1,8 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import "./varConfig.css"
 import { ConfigContext } from "../../main/main"
-
 import Slider from '@mui/material/Slider';
+import Checkmark from './checkmark';
+import { FaWineGlassEmpty } from 'react-icons/fa6';
+
 function VarConfig() {
     const { isPlaying, setIsPlaying, drawData, setDrawData, varConfigFunctionsAndStates, graphInfo } = useContext(ConfigContext);
     const {
@@ -14,163 +16,210 @@ function VarConfig() {
         epsilon, setEpsilon
     } = varConfigFunctionsAndStates;
 
-    const [formValues, setFormValues] = useState({
-        learningRate: learningRateState,
-        discountFactor: discountFactorState,
-        defaultReward: defaultRewardState,
-        positiveReward: positiveDefaultReward,
-        negativeReward: negativeDefaultReward,
-        epsilon: epsilon
-    });
-    const [messages, setMessages] = useState({
+    const animationTimeout = useRef(null);
+   
 
-        learningRateMsg: "",
-        discountFactorMsg: "",
-        defaultRewardMsg: "",
-        positiveRewardMsg: "",
-        negativeRewardMsg: "",
-        epsilonMsg: "",
+    const [intervalDuration, setIntervalDuration] = useState(1000)
+    const [intervalId, setIntervalId] = useState(null);
 
-    })
+    
 
-    const handleSliderChange = (name,newValue) => {
-        // setSliderValue(newValue);
-        setFormValues({
-            ...formValues,
-            [name]: Number(newValue)
-    });
+    const handleSliderChange = (name, newValue) => {
+
+        if (name == "learningRate") {
+            setLearningate(Number(newValue));
+        }
+        if (name == "epsilon") {
+            setEpsilon(Number(newValue))
+          
+        }
+        if (name == "discountFactor") {
+            setDiscountFactor(Number(newValue))
+         
+        }
+
     };
 
     const handleChange = (e) => {
 
-        let flag = false;
-        
-        // if (e.target.name == "discountFactor") {
-        //     if (e.target.value > 1 || e.target.value < 0) {
-        //         setMessages({ ...messages, ["discountFactorMsg"]: " fator de disconto deve ser entre 0 e 1" })
-        //         flag = true;
-        //     }
-        //     else {
-        //         setMessages({ ...messages, ["discountFactorMsg"]: "" })
-        //         setFormValues({
-        //             ...formValues,
-        //             [e.target.name]: 1
-        //         });
-        //     }
-        // }
-        // if (e.target.name == "learningRate") {
+        if (e.target.name == "defaultReward") {
 
-        //     if (e.target.value > 1 || e.target.value < 0) {
-        //         setMessages({ ...messages, ["learningRateMsg"]: "a Taxa de aprendizado deve ser entre 0 e 1" })
-        //         flag = true;
-        //     }
-        //     else {
-        //         setMessages({ ...messages, ["learningRateMsg"]: "" })
-        //         setFormValues({
-        //             ...formValues,
-        //             [e.target.name]: 1
-        //         });
-        //     }
-        // }
-        // if (e.target.name == "epsilon") {
+            setDefaultRewardState(Number(e.target.value));
+            // setChangedRecently(...[changedRecently], changedRecently[e.target.name] = true)
 
-        //     if (e.target.value > 1 || e.target.value < 0) {
-        //         setMessages({ ...messages, ["epsilonMsg"]: "a Taxa de exploração deve ser entre 0 e 1" })
-        //         flag = true;
-        //     }
-        //     else {
-        //         setMessages({ ...messages, ["epsilonMsg"]: "" })
-        //         setFormValues({
-        //             ...formValues,
-        //             [e.target.name]: 1
-        //         });
-        //     }
-        // }
+        }
+        if (e.target.name == "negativeReward") {
+            setNegativeDefaultReward(Number(e.target.value))
+            // setChangedRecently(...[changedRecently], changedRecently[e.target.name] = true)
+        }
+        if (e.target.name == "positiveReward") {
+            setPositiveDefaultReward(Number(e.target.value))
+            // setChangedRecently(...[changedRecently], changedRecently[e.target.name] = true)
+        }
 
-       
-        setFormValues({
-                ...formValues,
-                [e.target.name]: Number(e.target.value)
-        });
-        
+
 
     };
 
-    const handleSubmit = (e) => {
-        // console.log(formValues)
-        e.preventDefault();
-        setLearningate(Number(formValues.learningRate));
-        setDiscountFactor(Number(formValues.discountFactor));
-        setDefaultRewardState(Number(formValues.defaultReward));
-        setPositiveDefaultReward(Number(formValues.positiveReward));
-        setNegativeDefaultReward(Number(formValues.negativeReward));
-        setEpsilon(Number(formValues.epsilon));
-    };
-
-    const displayMsg =(type)=>{
-        if(messages[type]!=""){
-            return "block"
-        }
-        else{
-            return "none"
-        }
-    }
     return (
-        <div style={{ width: "100%", height: "100%" }}>
-            <form onSubmit={handleSubmit}>
-                {/* <label>
-                    Taxa de aprendizado
-                    <input name="learningRate" style={{ maxWidth: "30%" }} type="number" step={0.1} value={formValues.learningRate} onChange={handleChange} />
-                </label> */}
-                <br/>
-                <br/>
-                  <label>
-                    Taxa de aprendizado
-                    <Slider
-                        style={{ maxWidth: "30%" }}
-                        value={formValues.learningRate}
-                        onChange={(event,value)=>handleSliderChange("learningRate",value)}
-                        min={0}
-                        max={1}
-                        step={0.1}
-                        valueLabelDisplay="auto"
-                    />
-                </label>
-                <br />
-                <label>
-                    Fator de disconto
-                    <input name="discountFactor" style={{ maxWidth: "30%" }} type="number" step={0.05} value={formValues.discountFactor} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-                    Recompensa de vitória
-                    <input name="positiveReward" style={{ maxWidth: "30%" }} type="number" step={0.5} value={formValues.positiveReward} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-                    Punição por derrota
-                    <input name="negativeReward" style={{ maxWidth: "30%" }} type="number" step={0.5} value={formValues.negativeReward} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-                    Punição padrão por passo
-                    <input name="defaultReward" style={{ maxWidth: "30%" }} type="number" step={0.1} value={formValues.defaultReward} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-                    Taxa de exploração (ε)
-                    <input name="epsilon" style={{ maxWidth: "30%" }} type="number" step={0.1} value={formValues.epsilon} onChange={handleChange} />
-                </label>
-                <br />
-                <button type="submit">Submit</button>
-                <button type="reset">reset</button>
+        <div className="container-d">
+            <div style={{width:"100%",minHeight:"2em"}}>
+                <Checkmark prop={true} ></Checkmark>
+            </div>
+            <form className='form'>
+                <div className="label-div">
+
+                    <label className='label-var'>
+                        <div className='label-tip'>
+                            <div>
+                                Recompensa por vitória
+                            </div>
+                            <div>
+                                
+                            </div>
+
+                        </div>
+                        <div style={{ paddingLeft: "5%", paddingTop: "1%" }}>
+                            <input className='input-d' name="positiveReward" style={{ width: "80%" }}
+                                type="number" step={0.5} value={positiveDefaultReward} onChange={handleChange} />
+
+                        </div>
+
+                    </label>
+
+                </div>
+                <div className="label-div">
+                    <label className='label-var'>
+                        <div className='label-tip'>
+                            <div>
+                                Punição por derrota
+                            </div>
+                            <div>
+                                
+                            </div>
+
+                        </div>
+                        <div style={{ paddingLeft: "5%", paddingTop: "1%" }}>
+                            <input className='input-d' name="negativeReward" style={{ width: "80%" }}
+                                type="number" step={0.5} value={negativeDefaultReward} onChange={handleChange} />
+
+                        </div>
+
+                    </label>
+
+                </div>
+                <div className="label-div">
+                    <label className='label-var'>
+                        <div className='label-tip'>
+                            <div>
+                                Punição por passo
+                            </div>
+                            <div>
+                                
+                            </div>
+
+                        </div>
+                        <div style={{ paddingLeft: "5%", paddingTop: "1%" }}>
+                            <input className='input-d' name="defaultReward" style={{ width: "80%" }}
+                                type="number" step={0.1} value={defaultRewardState} onChange={handleChange} />
+
+                        </div>
+
+                    </label>
+
+
+                </div>
+                <div className="label-div">
+                    <label className="label-var">
+                        <div className="label-tip">
+                            <div>
+                                Taxa de exploração  ε={epsilon.toFixed(2)}
+                            </div>
+                            <div>
+                                
+                            </div>
+
+                        </div>
+                        <div style={{ width: "80%", paddingLeft: "5%" }}>
+                            <Slider
+
+                                value={epsilon}
+                                onChange={(event, value) => handleSliderChange("epsilon", value)}
+                                min={0}
+                                max={1}
+                                step={0.01}
+
+                            />
+
+                        </div>
+
+                    </label>
+                </div>
+                <div className="label-div">
+                    <label className='label-var'>
+                        <div className="label-tip">
+                            <div>
+                                Taxa de aprendizado α={learningRateState.toFixed(2)}
+                            </div>
+                            <div>
+                                
+                            </div>
+
+                        </div>
+
+                        <div style={{ width: "80%", paddingLeft: "5%" }}>
+                            <Slider
+
+                                value={learningRateState}
+                                onChange={(event, value) => handleSliderChange("learningRate", value)}
+                                min={0}
+                                max={1}
+                                step={0.01}
+
+                            />
+
+                        </div>
+
+                    </label>
+                </div>
+                <div className="label-div">
+                    <label className="label-var">
+                        <div className="label-tip">
+                            <div>
+                                Fator de disconto   γ={discountFactorState.toFixed(2)}
+                            </div>
+                            <div>
+                              
+                            </div>
+
+                        </div>
+                        <div style={{ width: "80%", paddingLeft: "5%" }}>
+                            <Slider
+
+                                value={discountFactorState}
+                                onChange={(event, value) => handleSliderChange("discountFactor", value)}
+                                min={0}
+                                max={1}
+                                step={0.01}
+
+                            />
+
+                        </div>
+
+
+                    </label>
+                </div>
+
+
+
             </form>
             <div>
-                <p>{messages.discountFactorMsg}</p>
-                <p>{messages.learningRateMsg}</p>
-                <p>{messages.epsilonMsg}</p>
+                {/* <p>{messages.discountFactorMsg}</p> */}
+                {/* <p>{messages.learningRateMsg}</p> */}
+                {/* <p>{messages.epsilonMsg}</p> */}
             </div>
         </div>
+
     );
 }
 
