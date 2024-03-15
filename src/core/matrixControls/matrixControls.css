@@ -23,7 +23,7 @@
 .text-tip{
     font-size: 0.9em;
     margin: 0;
-    color: white;
+    /* color: white; */
     cursor: "pointer"
 }
 .skip-steps{
@@ -51,4 +51,7 @@
   color: orange;
   opacity: 1;
   transition: all 0.5s linear;
+}
+.div-control:hover{
+  color: orange;
 }

@@ -40,7 +40,7 @@ function Main() {
   const [discountFactorState, setDiscountFactor] = useState(0.96)
   const [defaultRewardState, setDefaultRewardState] = useState(-0.1)
   const [positiveDefaultReward, setPositiveDefaultReward] = useState(3)
-  const [negativeDefaultReward, setNegativeDefaultReward] = useState(-1)
+  const [negativeDefaultReward, setNegativeDefaultReward] = useState(-3)
   const [epsilon, setEpsilon] = useState(0.10)
   const [loses, setLoses] = useState(0)
   const [wins, setWins] = useState(0)

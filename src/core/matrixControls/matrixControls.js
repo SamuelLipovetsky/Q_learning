@@ -89,7 +89,7 @@ return (
 
         </div>
         <div className='div-control' style={{ cursor: "pointer" }} onClick={handleRunQlearning}>
-            <button style={{ border: "solid 1px white", cursor: "pointer", color: "white", background: "rgba(204, 204, 204, 0.0)", width: "100%", display: "grid", placeItems: "center" }} >
+            <button  className ="div-control" style={{ border: "solid 1px ", cursor: "pointer", background: "rgba(204, 204, 204, 0.0)", width: "100%", display: "grid", placeItems: "center" }} >
                 {/* <BsFillSkipForwardFill size={30}/> */}
                 <MdSkipNext size={35} />
             </button>
