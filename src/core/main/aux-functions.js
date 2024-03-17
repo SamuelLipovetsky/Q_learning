@@ -52,7 +52,8 @@ export function chooseOptimalAction(qTable, state, grid) {
         return acc;
     }, []);
 
-    const randomIndex = maxIndices[Math.floor(Math.random() * maxIndices.length)]; // Sele
+    const randomIndex = maxIndices[Math.floor(Math.random() * maxIndices.length)]; 
+   
     return availableActions[randomIndex];
 }
 
@@ -64,7 +65,7 @@ export function getReward(grid, state, defaultReward,posRewad,negRewad) {
 
     if (cellValue === 4) {
         return posRewad;
-    } else if (cellValue === 3 || cellValue==2) {
+    } else if (cellValue === 3 ) {
         return negRewad;
     } else if (cellValue === 0) {
         return defaultReward;
@@ -119,13 +120,16 @@ export function qLearningFaster(matrixData, qTable, epsilon, learningRate, disco
 
         const [agentRow, agentCol] = agentPosition;
         const qValue = qTable[agentRow][agentCol][action];
-        const maxQValue = Math.max(...qTable[nextState[0]][nextState[1]]);
+        availabeActions = getAvailableActions(matrixData,nextState)
+        const filteredQTable = (qTable[nextState[0]][nextState[1]]).filter((_, index) => availabeActions.includes(index));
+        const maxQValue = Math.max(...filteredQTable);
+        // const maxQValue = Math.max(...qTable[nextState[0]][nextState[1]]);
         qTable[agentRow][agentCol][action] += learningRate * (reward + discountFactor * maxQValue - qValue);
         const [nextRow, nextCol] = nextState;
 
-        if (reward == posRewad || reward == -negRewad) {
+        if (reward == posRewad || reward == negRewad) {
 
-            if (reward == -negRewad) {
+            if (reward == negRewad) {
                 loses+=1
                 qTable[nextState[0]][nextState[1]] = [-1, -1, -1, -1]
             }
@@ -161,42 +165,48 @@ export function qLearningFaster(matrixData, qTable, epsilon, learningRate, disco
   
     return [stepsTilWin,qValues,wins,loses]
 }
-export function initializeMatrix() {
-    const matrix = Array.from({ length: 7 }, () => Array(7).fill(0));
+export function initializeMatrix(L) {
+    const matrix = Array.from({ length: L }, () => Array(L).fill(0));
   
-    // Randomly distribute values
+   
     const randomIndex = (max) => Math.floor(Math.random() * max);
     
-    // Set one cell to 1
+ 
     const [row1, col1] = [0,0];
     matrix[row1][col1] = 1;
   
-    // Set four cells to 3
-    for (let i = 0; i < 6; i++) {
+ 
+    for (let i = 0; i < 10; i++) {
       let row, col;
       do {
-        row = randomIndex(7);
-        col = randomIndex(7);
+        row = randomIndex(L);
+        col = randomIndex(L);
       } while (matrix[row][col] !== 0);
       matrix[row][col] = 3;
     }
   
-    // Set two cells to 2
-    for (let i = 0; i < 3; i++) {
+   
+    for (let i = 0; i < 6; i++) {
       let row, col;
       do {
-        row = randomIndex(7);
-        col = randomIndex(7);
+        row = randomIndex(L);
+        col = randomIndex(L);
       } while (matrix[row][col] !== 0);
       matrix[row][col] = 2;
     }
   
-    // Set one cell to 4
+    
     let row, col;
     do {
-      row = randomIndex(7);
-      col = randomIndex(7);
-    } while (matrix[row][col] !== 0);
+      row = 8
+      col = randomIndex(L);
+    } while (matrix[row][col] !== 0) ;
+    matrix[row][col] = 4;
+   
+    do {
+      row = randomIndex(L);
+      col = 8
+    } while (matrix[row][col] !== 0) ;
     matrix[row][col] = 4;
   
     return matrix;

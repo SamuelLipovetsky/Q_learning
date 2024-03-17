@@ -17,13 +17,8 @@ function VarConfig() {
     } = varConfigFunctionsAndStates;
 
     const animationTimeout = useRef(null);
+    const [changedRecently,setChangedRecently] = useState(false)
    
-
-    const [intervalDuration, setIntervalDuration] = useState(1000)
-    const [intervalId, setIntervalId] = useState(null);
-
-    
-
     const handleSliderChange = (name, newValue) => {
 
         if (name == "learningRate") {
@@ -37,25 +32,65 @@ function VarConfig() {
             setDiscountFactor(Number(newValue))
          
         }
+        clearTimeout(animationTimeout.current);
+        clearTimeout(animationTimeout.display);
+        animationTimeout.current = setTimeout(() => {
+                setChangedRecently(true)
+        }, 500);
+        animationTimeout.current = setTimeout(() => {
+                setChangedRecently(false)
+        }, 2000);
 
     };
 
     const handleChange = (e) => {
 
         if (e.target.name == "defaultReward") {
-
-            setDefaultRewardState(Number(e.target.value));
-            // setChangedRecently(...[changedRecently], changedRecently[e.target.name] = true)
-
+            if(Number(e.target.value)==negativeDefaultReward
+            || Number(e.target.value)== positiveDefaultReward
+          
+            )
+            {
+                setDefaultRewardState(Number(e.target.value)+0.001);
+            }
+            else{
+                setDefaultRewardState(Number(e.target.value));
+            }
+            
         }
         if (e.target.name == "negativeReward") {
-            setNegativeDefaultReward(Number(e.target.value))
-            // setChangedRecently(...[changedRecently], changedRecently[e.target.name] = true)
+            if(Number(e.target.value)== positiveDefaultReward
+            || Number(e.target.value) ==defaultRewardState  
+            )
+            {
+                setNegativeDefaultReward(Number(e.target.value)+0.001)
+            }
+            else{
+                setNegativeDefaultReward(Number(e.target.value))
+            }
+           
+           
         }
         if (e.target.name == "positiveReward") {
-            setPositiveDefaultReward(Number(e.target.value))
-            // setChangedRecently(...[changedRecently], changedRecently[e.target.name] = true)
+            if(Number(e.target.value)==negativeDefaultReward
+            || Number(e.target.value) ==defaultRewardState  
+            )
+            {
+                setPositiveDefaultReward(Number(e.target.value)+0.0001)
+            }
+            else{
+                setPositiveDefaultReward(Number(e.target.value))
+            }
+            
         }
+        clearTimeout(animationTimeout.current);
+        clearTimeout(animationTimeout.display);
+        animationTimeout.current = setTimeout(() => {
+                setChangedRecently(true)
+        }, 500);
+        animationTimeout.current = setTimeout(() => {
+                setChangedRecently(false)
+        }, 2000);
 
 
 
@@ -64,7 +99,7 @@ function VarConfig() {
     return (
         <div className="container-d">
             <div style={{width:"100%",minHeight:"2em"}}>
-                <Checkmark prop={true} ></Checkmark>
+                <Checkmark prop={changedRecently} ></Checkmark>
             </div>
             <form className='form'>
                 <div className="label-div">

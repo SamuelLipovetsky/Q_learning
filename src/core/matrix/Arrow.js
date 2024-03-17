@@ -1,5 +1,7 @@
 import React from 'react';
-function ArrowDisplay({ numbers, type }) {
+import * as utils from "../main/aux-functions"
+
+function ArrowDisplay({ numbers, type,index,matrix }) {
 
     let arrow;
     // console.log(type)
@@ -8,15 +10,21 @@ function ArrowDisplay({ numbers, type }) {
         arrow=""
     }
     else {
-        const nonZeroNumbers = numbers.filter(num => num !== 0);
-        const maxNumber = Math.max(...nonZeroNumbers);
-        const count = nonZeroNumbers.filter(num => num === maxNumber).length;
+        let actions =utils.getAvailableActions(matrix,index)
+        const filteredNumbers = numbers.filter((_, index) => actions.includes(index));
+        const maxNumber = Math.max(...filteredNumbers);
+        const count = numbers.filter(num => num === maxNumber).length;
 
-       
-        const processedNumbers = numbers.map(num => (num === 0 ? -100 : num));
-        if (count === 1) {
-            const maxIndex = processedNumbers.indexOf(maxNumber);
+        
 
+
+        const maxIndex =numbers.indexOf(maxNumber)
+     
+        
+        if (count === 1 ) {
+            
+            // const maxIndex = numbers.indexOf(maxNumber);
+            
             if (maxIndex === 0) {
                 arrow = '↑';
             } else if (maxIndex === 1) {
@@ -34,8 +42,16 @@ function ArrowDisplay({ numbers, type }) {
     return (
         <div style={{ width: "100%", height: "100%", color: "white", fontSize: "1.3em", display: "flex", alignItems: "center", justifyContent: "center" }}>
             {arrow}
+            {/* <div style={{display:"flex",flexDirection:"column",fontSize:"0.5em"}}>
+            {numbers[0].toFixed(2)}<br></br>
+            {numbers[1].toFixed(2)}<br></br>
+            {numbers[2].toFixed(2)}<br></br>
+            {numbers[3].toFixed(2)}<br></br>
+            </div>
+        */}
         </div>
     );
 }
+
 
 export default ArrowDisplay;

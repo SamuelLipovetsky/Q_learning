@@ -7,6 +7,7 @@ import { BsFillSkipForwardFill } from "react-icons/bs";
 import { MdOutlineRestartAlt } from "react-icons/md";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import { MdSkipNext } from "react-icons/md";
+import { MdSpeed } from "react-icons/md";
 function MatrixControls(props) {
 
     const [animationClass, setAnimationClass] = useState('');
@@ -42,6 +43,22 @@ function MatrixControls(props) {
        
     };
 
+    const handleSpeed = ()=>{
+        if(props.intervalDuration==100){
+            props.setIntervalDuration(50)
+        }
+        if(props.intervalDuration==50){
+            props.setIntervalDuration(20)
+        }
+        if(props.intervalDuration==20){
+            props.setIntervalDuration(500)
+        }
+        if(props.intervalDuration==500){
+            props.setIntervalDuration(100)
+        }
+        
+    }
+
 
 const handleResetTable = () => {
     props.resetTable()
@@ -52,7 +69,21 @@ const handleRandomize = () => {
     props.randomizeMatrix()
 }
 
-
+const displaySpeed =()=>{
+    if (props.intervalDuration==20){
+        return "red"
+    }
+    if (props.intervalDuration==50){
+        return "yellow"
+    }
+    if (props.intervalDuration==100)
+    {
+        return "white"
+    }
+    if (props.intervalDuration==500){
+        return "green"
+    }
+}
 
 return (
     <div className='matrix-control'>
@@ -85,13 +116,23 @@ return (
             </div>
 
         </div>
+        <div className='div-control' style={{ cursor: "pointer" , color:`${displaySpeed()}` }} onClick={handleSpeed}>
+          
+              
+                <MdSpeed size={38} />
+            
+            <div className='text-tip'>
+                    Velocidade
+            </div>
+          
+        </div>
         <div className='div-control' style={{ cursor: "pointer" }} onClick={handleRunQlearning}>
-            <button  className ="div-control" style={{ border: "solid 1px ", cursor: "pointer", background: "rgba(204, 204, 204, 0.0)", width: "100%", display: "grid", placeItems: "center" }} >
+            <button  className ="div-control" style={{ border: "solid 1px ", cursor: "pointer", background: "rgba(204, 204, 204, 0.0)", width: "90%", display: "grid", placeItems: "center" }} >
                 {/* <BsFillSkipForwardFill size={30}/> */}
                 <MdSkipNext size={35} />
             </button>
             <div className='text-tip'>
-                Adiantar treinamento
+                +1000 passos
             </div>
           
         </div>

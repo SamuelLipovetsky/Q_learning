@@ -1,7 +1,7 @@
 .matrix-container {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(7, 1fr);
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
 
   margin: 0;  
   padding: 0;
@@ -55,7 +55,7 @@
   display: flex;
   flex-direction: column;
   box-sizing: content-box;
-  transition: all 0.1s linear  
+  transition: all  linear  
 }
 
 .matrix-row {
@@ -72,7 +72,7 @@
  
   /* box-shadow: inset 0px 0px 0px 1p; */
   aspect-ratio: 1; 
-  /* transition: all 0.0.1s linear; */
+  /* transition: all 0. linear; */
 }
 
 .corner-0{
@@ -116,7 +116,7 @@ border-top-left-radius: 2vh;
   width: 100%;
   height:0%;
   background: white;
-  animation: animateGrow-Up 0.1s linear 1;
+  animation: animateGrow-Up  linear 1;
 
 }
 
@@ -136,7 +136,7 @@ border-top-left-radius: 2vh;
   width: 100%;
   height: 100%;
   background: white;
-  animation: animateShrink-Up 0.1s linear 1;
+  animation: animateShrink-Up  linear 1;
 }
 
 @keyframes animateShrink-Up {
@@ -159,7 +159,7 @@ border-top-left-radius: 2vh;
   width: 0%;
   height:100%;
   background: white;
-  animation: animateGrow-Right 0.1s linear 1;
+  animation: animateGrow-Right  linear 1;
 
 }
 
@@ -179,7 +179,7 @@ border-top-left-radius: 2vh;
   width: 100%;
   height: 100%;
   background: white;
-  animation: animateShrink-Right 0.1s linear 1;
+  animation: animateShrink-Right  linear 1;
 }
 
 @keyframes animateShrink-Right {
@@ -202,7 +202,7 @@ border-top-left-radius: 2vh;
   width: 100%;
   height:0%;
   background: white;
-  animation: animateGrow-down 0.1s linear 1;
+  animation: animateGrow-down  linear 1;
 
 }
 
@@ -222,7 +222,7 @@ border-top-left-radius: 2vh;
   width: 100%;
   height: 100%;
   background: white;
-  animation: animateShrink-down 0.1s linear 1;
+  animation: animateShrink-down  linear 1;
 }
 
 @keyframes animateShrink-down {
@@ -245,7 +245,7 @@ border-top-left-radius: 2vh;
   width: 0%;
   height:100%;
   background: white;
-  animation: animateGrow-left 0.1s linear 1;
+  animation: animateGrow-left  linear 1;
 
 }
 
@@ -265,7 +265,7 @@ border-top-left-radius: 2vh;
   width: 100%;
   height: 100%;
   background: white;
-  animation: animateShrink-left 0.1s linear 1;
+  animation: animateShrink-left  linear 1;
 }
 
 @keyframes animateShrink-left {

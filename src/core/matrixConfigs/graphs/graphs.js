@@ -46,7 +46,7 @@ function Graphs() {
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <YAxis />
-                    <Tooltip />
+                    
                     <Legend />
                     <Line type="monotone" dataKey="Média Q-values" stroke="white" dot={false} />
                 </LineChart>
@@ -58,7 +58,7 @@ function Graphs() {
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <YAxis />
-                    <Tooltip />
+                    
                     <Legend />
                     <Line type="monotone" dataKey="Passos até a vitória" stroke="white" dot={false} />
                 </LineChart>
