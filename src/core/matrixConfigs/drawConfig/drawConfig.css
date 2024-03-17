@@ -12,6 +12,7 @@
     height: 100%;
     grid-template-rows: 1fr 5fr 1fr;
     place-items: center;
+    font-size: 2.4vmin
 }
 
 .draw-config{

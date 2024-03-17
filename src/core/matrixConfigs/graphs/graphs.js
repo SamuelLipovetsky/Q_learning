@@ -34,7 +34,7 @@ function Graphs() {
     return (
 
         <div className='graphs-wrapper' style={{ width: "100%", height: "100%" }}>
-            <div style={{ width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", placeItems: "center", paddingTop: "3%" }}>
+            <div style={{ width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", placeItems: "center", paddingTop: "3%",fontSize:  "2.4vmin" }}>
                 <div>Passos: {numberSteps}</div>
                 <div>vitórias: {wins}</div>
                 <div>Derrotas: {loses}</div>
@@ -47,7 +47,7 @@ function Graphs() {
                     <CartesianGrid strokeDasharray="3 3" />
                     <YAxis />
                     
-                    <Legend />
+                    <Legend   wrapperStyle={{ fontSize: "2.4vmin" }}/>
                     <Line type="monotone" dataKey="Média Q-values" stroke="white" dot={false} />
                 </LineChart>
             </ResponsiveContainer>
@@ -59,7 +59,7 @@ function Graphs() {
                     <CartesianGrid strokeDasharray="3 3" />
                     <YAxis />
                     
-                    <Legend />
+                    <Legend    wrapperStyle={{ fontSize: "2.4vmin" }}/>
                     <Line type="monotone" dataKey="Passos até a vitória" stroke="white" dot={false} />
                 </LineChart>
             </ResponsiveContainer>

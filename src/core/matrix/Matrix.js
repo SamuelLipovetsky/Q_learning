@@ -192,8 +192,10 @@ class Matrix extends React.Component {
           >
             <span className={`${this.displayAnimation(rowIndex, colIndex)}`} 
             style={{ animationDuration: this.animDisplayDuration() }}></span>
-            <span className={`${this.displayWin(rowIndex, colIndex)}`}>Derrota</span>
-            <span className={`${this.displayLoss(rowIndex, colIndex)}`}>vitória</span>
+            <span className={`${this.displayWin(rowIndex, colIndex)}`} 
+            style={{fontSize: "2vmin"}}>Derrota</span>
+            <span className={`${this.displayLoss(rowIndex, colIndex)}`} 
+            style={{fontSize: "2vmin"}}>vitória</span>
 
             <ArrowDisplay numbers={this.props.qTable[rowIndex][colIndex]} type={this.props.initialData[rowIndex][colIndex]} index={[rowIndex, colIndex]} matrix={this.props.initialData}></ArrowDisplay>
           </div>

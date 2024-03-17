@@ -89,7 +89,7 @@ return (
     <div className='matrix-control'>
         <div className="div-control" onClick={handleUpdateIsPlaying}>
             <div  >
-                {props.isPlaying ? <MdOutlinePauseCircle size={35} /> : <MdOutlineNotStarted size={35} />}
+                {props.isPlaying ? <MdOutlinePauseCircle size={30} /> : <MdOutlineNotStarted size={30} />}
             </div>
             <div className='text-tip'>
                 {props.isPlaying ? "Pausar" : "Iniciar"}
@@ -99,7 +99,7 @@ return (
         <div className="div-control" onClick={handleResetTable} >
 
             <div className='rotate'>
-                <MdOutlineRestartAlt size={35} />
+                <MdOutlineRestartAlt size={30} />
             </div>
             <div className='text-tip'>
                 Reset
@@ -109,7 +109,7 @@ return (
         <div className="div-control" onClick={handleRandomize} >
 
             <div  >
-                <GiPerspectiveDiceSixFacesRandom size={35} />
+                <GiPerspectiveDiceSixFacesRandom size={30} />
             </div>
             <div className='text-tip'>
                 Rand
@@ -119,7 +119,7 @@ return (
         <div className='div-control' style={{ cursor: "pointer" , color:`${displaySpeed()}` }} onClick={handleSpeed}>
           
               
-                <MdSpeed size={38} />
+                <MdSpeed size={33} />
             
             <div className='text-tip'>
                     Velocidade
@@ -129,7 +129,7 @@ return (
         <div className='div-control' style={{ cursor: "pointer" }} onClick={handleRunQlearning}>
             <button  className ="div-control" style={{ border: "solid 1px ", cursor: "pointer", background: "rgba(204, 204, 204, 0.0)", width: "90%", display: "grid", placeItems: "center" }} >
                 {/* <BsFillSkipForwardFill size={30}/> */}
-                <MdSkipNext size={35} />
+                <MdSkipNext size={30} />
             </button>
             <div className='text-tip'>
                 +1000 passos

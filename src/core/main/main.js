@@ -325,12 +325,18 @@ function Main() {
           ></MatrixControls>
         </div>
       </div>
-      <div className="child matrix-div">
+      <div className="child control-div">
         <ConfigContext.Provider value={{ isPlaying, setIsPlaying, drawData, setDrawData, varConfigFunctionsAndStates, graphInfo }}>
 
           <TabConfig></TabConfig>
 
         </ConfigContext.Provider>
+        <div className='matrix-controls' style={{visibility:"hidden"}}>
+          <MatrixControls randomizeMatrix={randomizeMatrix} isPlaying={isPlaying} resetTable={resetTable}
+            runQlearning={runQlearning} updateIsPlaying={updateIsPlaying} setIntervalDuration={setIntervalDuration}
+            intervalDuration={intervalDuration}
+          ></MatrixControls>
+        </div>
       </div>
     </div>
 

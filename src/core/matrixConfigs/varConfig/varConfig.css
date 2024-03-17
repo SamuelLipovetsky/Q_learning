@@ -25,6 +25,7 @@
 .container-d{
     display: flex;
     flex-direction: column;
+    font-size:  2.4vmin
     /* height: 90%; */
     /* padding-top: 5%; */
 }

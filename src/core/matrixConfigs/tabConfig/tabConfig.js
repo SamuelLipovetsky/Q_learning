@@ -71,37 +71,37 @@ function TabConfig(props) {
                     <DrawButtons></DrawButtons>
                 </div>
                 <div className={`content show-content-${tabsToShow[2]}`} >
-                    <p style={{ textAlign: "center" }}> Legenda</p>
+                    <p style={{ textAlign: "center",fontSize:"2.8vm" }}> Legenda</p>
                     <div style={{ width: "80%", display: 'grid', gridTemplateRows: "1fr 1fr", gridTemplateColumns: "1fr 1fr" }}>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "right", margin: "0.5em" }}>
-                            <div style={{ display: 'grid', placeItems: "center", marginRight: "0.2em" }}>Agente  </div>
+                            <div style={{ display: 'grid', placeItems: "center", marginRight: "0.2em",fontSize:  "2.4vmin" }}>Agente  </div>
                             <div style={{ backgroundColor: "white", width: "1.5em", height: "1.5em",opacity:"0.8" }}> </div>
                         </div>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "right", margin: "0.5em" }}>
-                            <div style={{ display: 'grid', placeItems: "center", marginRight: "0.2em" }}>Vitória  </div>
+                            <div style={{ display: 'grid', placeItems: "center", marginRight: "0.2em",fontSize:  "2.4vmin" }}>Vitória  </div>
                             <div style={{ backgroundColor: "#0e5c16", width: "1.5em", height: "1.5em",opacity:"0.8" }}> </div>
                         </div>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "right", margin: "0.5em" }}>
-                            <div style={{ display: 'grid', placeItems: "center", marginRight: "0.2em" }}>Derrota  </div>
+                            <div style={{ display: 'grid', placeItems: "center", marginRight: "0.2em",fontSize:  "2.4vmin" }}>Derrota  </div>
                             <div style={{ backgroundColor: "#a70f16", width: "1.5em", height: "1.5em",opacity:"0.8" }}> </div>
                         </div>
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "right", margin: "0.5em" }}>
-                            <div style={{ display: 'grid', placeItems: "center", marginRight: "0.2em" }}> Obstáculo  </div>
+                            <div style={{ display: 'grid', placeItems: "center", marginRight: "0.2em",fontSize:  "2.4vmin" }}> Obstáculo  </div>
                             <div style={{ backgroundColor: "black", width: "1.5em", height: "1.5em",opacity:"0.8" }}> </div>
                         </div>
                     </div>
                     <div style={{width:"90%",margin:"auto"}}>
 
 
-                        <p style={{ textAlign: "center" }}> Introdução e objetivos</p>
-                        <div style={{ fontSize: "1em" }}>
+                        <p style={{ textAlign: "center",fontSize:"2.8vm" }}> Introdução e objetivos</p>
+                        <div style={{  fontSize:  "2.4vmin" }}>
                             Olá, esse site é uma  demonstração do Q-learning,
                             uma tecnica de apredizado por reforço. O objetivo do agente
                             (a celula branca) é chegar na recompensa ( celula verde), sem
                             cair nas celulas vermelhas (derrotas).
                         </div>
                         <p style={{ textAlign: "center" }}>Funcionamento</p>
-                        <div style={{ fontSize: "1em" }}>
+                        <div style={{  fontSize:  "2.4vmin" }}>
 
 
                             Inicialmente, o agente  assume caminhos
@@ -113,7 +113,7 @@ function TabConfig(props) {
                             tempo para aprender o caminho ideal.
                         </div>
                         <p style={{ textAlign: "center" }}>Funcionalidades</p>
-                        <div style={{ fontSize: "1em" }}>
+                        <div style={{  fontSize:  "2.4vmin" }}>
 
 
                             Observe os gráficos do aprendizado clicando

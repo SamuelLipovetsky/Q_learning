@@ -40,7 +40,7 @@ function ArrowDisplay({ numbers, type,index,matrix }) {
 
     }
     return (
-        <div style={{ width: "100%", height: "100%", color: "white", fontSize: "1.3em", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ width: "100%", height: "100%", color: "white", fontSize: "2.5vmin", display: "flex", alignItems: "center", justifyContent: "center" }}>
             {arrow}
             {/* <div style={{display:"flex",flexDirection:"column",fontSize:"0.5em"}}>
             {numbers[0].toFixed(2)}<br></br>

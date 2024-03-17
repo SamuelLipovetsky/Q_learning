@@ -6,6 +6,11 @@
     justify-content: center;
     flex-wrap: wrap;
     margin:auto;
+    /* font-family: 'Andale Mono', 'Courier New', Courier, monospace; */
+    /* font-family: 'Helvetica', Arial, sans-serif; */
+    /* font-family: 'Georgia', 'Times New Roman', Times, serif; */
+    /* font-family: Courier, 'Courier New', monospace; */
+    font-family: 'Helvetica', Arial, sans-serif;
 }
 
 .filler{
@@ -15,12 +20,25 @@
 .matrix-div{
   display: grid;
   min-width: 25em;
-  max-width: 40em;
+  max-width: 50em;
   grid-template-columns: 1fr;
-  grid-template-rows:4fr 1fr;
+  /* grid-template-rows:4fr 1fr; */
   place-items: center;
-  gap: 3px;
-  margin: auto;
+  /* gap: 3px; */
+  /* margin: auto; */
+}   
+
+.control-div{
+  display: grid;
+  min-width: 25em;
+  max-width: 50em;
+  grid-template-columns: 1fr;
+  /* grid-template-rows:4fr 1fr; */
+  /* place-items: ; */
+  justify-items: center;
+  align-items: start;
+  /* gap: 3px; */
+  /* margin: auto; */
 }   
 
 .matrix-controls{
